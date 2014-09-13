@@ -1,0 +1,621 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ShaderPipeline">
+      <UniqueIdentifier>{e0266dd6-41f6-4dc9-aae6-0bb50f3ebba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderPipeline\Shaders">
+      <UniqueIdentifier>{fb3f8674-8152-4363-a00a-6c90fbff2d9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderPipeline\Shaders\Pixel">
+      <UniqueIdentifier>{5d6840bd-797a-4c85-b9ca-0ea68a54bcee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderPipeline\Shaders\Vertex">
+      <UniqueIdentifier>{e61aff96-1654-449c-82c3-b105c80bf5ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderPipeline\ConstantBuffers">
+      <UniqueIdentifier>{08cca417-8fbc-4e4f-adcf-eff3b510e3db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderPipeline\ShaderInputs">
+      <UniqueIdentifier>{ef7db146-0145-4025-a639-0f5048f0f33b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jobs">
+      <UniqueIdentifier>{1e332f03-8eec-4e63-b1fc-d97c644b6add}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{ec3f37da-3482-4a60-9e4a-acb59e36adcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parsers">
+      <UniqueIdentifier>{88f5d9ee-3389-482a-8c33-2f56c2f6bda2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunModes">
+      <UniqueIdentifier>{27f09458-3e1b-4417-a894-dbbafc194d57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetContainers">
+      <UniqueIdentifier>{e5ecc2ae-fc65-4a76-97b7-09df2daf7cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Peripheral">
+      <UniqueIdentifier>{15029890-4917-4768-bf1c-0f7f42a69375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{43a3acee-d638-4feb-a89a-7cbc7261ce7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Diagnostics">
+      <UniqueIdentifier>{6b420bd8-0ea3-40d1-a53e-eec643f28ba1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataProcessing">
+      <UniqueIdentifier>{ce68f1fc-31f4-4585-a06e-bf5441c13112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{d0b749fb-542e-4c9d-b844-04181441e4d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{9dc106a6-02a3-4881-8bf6-116776550665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderPipeline\Shaders\Compute">
+      <UniqueIdentifier>{99541d4e-47eb-458f-a835-a4cf3d75e3e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials">
+      <UniqueIdentifier>{b2093192-9bd5-4eb7-9f8d-559a7b7744e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Threading">
+      <UniqueIdentifier>{4c8fe6ed-ed47-4b16-a1f0-9c02f44dcd92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{de2d0d28-1d9d-4322-99ba-5d0334ed3502}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ShaderPipeline\ConstantBuffers\CBufferView.hlsl">
+      <Filter>ShaderPipeline\ConstantBuffers</Filter>
+    </None>
+    <None Include="ShaderPipeline\ConstantBuffers\CBufferLocal.hlsl">
+      <Filter>ShaderPipeline\ConstantBuffers</Filter>
+    </None>
+    <None Include="ShaderPipeline\ConstantBuffers\CBufferLights.hlsl">
+      <Filter>ShaderPipeline\ConstantBuffers</Filter>
+    </None>
+    <None Include="ShaderPipeline\ConstantBuffers\CBufferBones.hlsl">
+      <Filter>ShaderPipeline\ConstantBuffers</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="JobCreateDrawPrimitive.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="JobCreateMaterial.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="JobLoadMaterialLibrary.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="JobLoadObjFile.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="JobLoadTexture.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="JobLoadXFile.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="JobReadFile.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantsSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawPrimitive.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometrySystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="JobSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderPipeline.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjFileParser.h">
+      <Filter>Parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="XFileParser.h">
+      <Filter>Parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="RunMode.h">
+      <Filter>RunModes</Filter>
+    </ClInclude>
+    <ClInclude Include="RunModeTest.h">
+      <Filter>RunModes</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryTree.h">
+      <Filter>AssetContainers</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryTreeNode.h">
+      <Filter>AssetContainers</Filter>
+    </ClInclude>
+    <ClInclude Include="ElementList.h">
+      <Filter>AssetContainers</Filter>
+    </ClInclude>
+    <ClInclude Include="HashMap.h">
+      <Filter>AssetContainers</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiStageAssetContainer.h">
+      <Filter>AssetContainers</Filter>
+    </ClInclude>
+    <ClInclude Include="CommsChannel.h">
+      <Filter>Peripheral</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>Peripheral</Filter>
+    </ClInclude>
+    <ClInclude Include="HIDInputInterface.h">
+      <Filter>Peripheral</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Peripheral</Filter>
+    </ClInclude>
+    <ClInclude Include="Network.h">
+      <Filter>Peripheral</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Peripheral</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Peripheral</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderCommand.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityDraw.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugging.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugGUI.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveEditTree.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveEditVariable.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="StringDictionary.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeLine.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawData.h">
+      <Filter>DataProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcessing.h">
+      <Filter>DataProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="TextReader.h">
+      <Filter>DataProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexFormats.h">
+      <Filter>DataProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexProcessing.h">
+      <Filter>DataProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="HeapAllocator.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManager.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryStream.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="RingBuffer.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="StackAllocator.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="LWMutex.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash64.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Macros.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TTyx.h" />
+    <ClInclude Include="SegmentedBuffer.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="RWBuffer.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>AssetContainers</Filter>
+    </ClInclude>
+    <ClInclude Include="JobProcessRenderCommands.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="JobUtilityDraw.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="Reference.h">
+      <Filter>AssetContainers</Filter>
+    </ClInclude>
+    <ClInclude Include="JobCreateShader.h">
+      <Filter>Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialPlainColor.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialPhong.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialTextured2D.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalObject.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancedObject.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticObjectCollection.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTargets.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialExperimental.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewController.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialTextureOps.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialPostprocess.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Postprocessor.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="JobCreateDrawPrimitive.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="JobCreateMaterial.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="JobLoadMaterialLibrary.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="JobLoadObjFile.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="JobLoadTexture.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="JobLoadXFile.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="JobReadFile.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantsSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawPrimitive.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometrySystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="JobSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderPipeline.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjFileParser.cpp">
+      <Filter>Parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="XFileParser.cpp">
+      <Filter>Parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="RunModeTest.cpp">
+      <Filter>RunModes</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryTree.cpp">
+      <Filter>AssetContainers</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryTreeNode.cpp">
+      <Filter>AssetContainers</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementList.cpp">
+      <Filter>AssetContainers</Filter>
+    </ClCompile>
+    <ClCompile Include="HashMap.cpp">
+      <Filter>AssetContainers</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiStageAssetContainer.cpp">
+      <Filter>AssetContainers</Filter>
+    </ClCompile>
+    <ClCompile Include="CommsChannel.cpp">
+      <Filter>Peripheral</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>Peripheral</Filter>
+    </ClCompile>
+    <ClCompile Include="HIDInputInterface.cpp">
+      <Filter>Peripheral</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Peripheral</Filter>
+    </ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>Peripheral</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Peripheral</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Peripheral</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCommand.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilityDraw.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugging.cpp">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugGUI.cpp">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveEditTree.cpp">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveEditVariable.cpp">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="StringDictionary.cpp">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeLine.cpp">
+      <Filter>Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawData.cpp">
+      <Filter>DataProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcessing.cpp">
+      <Filter>DataProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="TextReader.cpp">
+      <Filter>DataProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexProcessing.cpp">
+      <Filter>DataProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="HeapAllocator.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManager.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryStream.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="RingBuffer.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="StackAllocator.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="LWMutex.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Hash64.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TTyx.cpp" />
+    <ClCompile Include="SegmentedBuffer.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="RWBuffer.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="JobProcessRenderCommands.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="JobUtilityDraw.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="JobCreateShader.cpp">
+      <Filter>Jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialPlainColor.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialPhong.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialTextured2D.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialTextureOps.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletalObject.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancedObject.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticObjectCollection.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTargets.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialExperimental.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewController.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialPostprocess.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Postprocessor.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ShaderPipeline\ShaderInputs\PhongInputs.hlsl">
+      <Filter>ShaderPipeline\ShaderInputs</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\ShaderInputs\UtilityInputs.hlsl">
+      <Filter>ShaderPipeline\ShaderInputs</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\ShaderInputs\ExperimentalInputs.hlsl">
+      <Filter>ShaderPipeline\ShaderInputs</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Compute\TextureOps.hlsl">
+      <Filter>ShaderPipeline\Shaders\Compute</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Pixel\Phong.hlsl">
+      <Filter>ShaderPipeline\Shaders\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Pixel\Utility.hlsl">
+      <Filter>ShaderPipeline\Shaders\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Vertex\Phong.hlsl">
+      <Filter>ShaderPipeline\Shaders\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Vertex\Utility.hlsl">
+      <Filter>ShaderPipeline\Shaders\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Vertex\Experimental.hlsl">
+      <Filter>ShaderPipeline\Shaders\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Pixel\Experimental.hlsl">
+      <Filter>ShaderPipeline\Shaders\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Vertex\Postprocess.hlsl">
+      <Filter>ShaderPipeline\Shaders\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Pixel\Postprocess.hlsl">
+      <Filter>ShaderPipeline\Shaders\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\ShaderInputs\PostprocessInputs.hlsl">
+      <Filter>ShaderPipeline\ShaderInputs</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

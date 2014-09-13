@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{577EC1E1-1B19-4A84-A08D-D5415CCAEF06}</ProjectGuid>
+    <RootNamespace>TTyx</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.20827.3</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling />
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3dcompiler.lib;d3d11.lib;d3dx11.lib;d3dx9.lib;dxerr.lib;dxguid.lib;dxgi.lib;Ws2_32.lib;Mswsock.lib;Advapi32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling />
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;d3dx11.lib;d3dx9.lib;dxerr.lib;dxguid.lib;Ws2_32.lib;Mswsock.lib;Advapi32.lib;iphlpapi.lib;dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <FxCompile Include="ShaderPipeline\ShaderInputs\PostprocessInputs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Pixel\Phong.hlsl">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Pixel\Postprocess.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Pixel\Utility.hlsl">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Vertex\Phong.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Vertex\Postprocess.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Vertex\Utility.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MaterialPostprocess.h" />
+    <ClInclude Include="Postprocessor.h" />
+    <ClInclude Include="ViewController.h" />
+    <ClInclude Include="InstancedObject.h" />
+    <ClInclude Include="MaterialExperimental.h" />
+    <ClInclude Include="MaterialTextureOps.h" />
+    <ClInclude Include="MaterialPhong.h" />
+    <ClInclude Include="MaterialPlainColor.h" />
+    <ClInclude Include="MaterialTextured2D.h" />
+    <ClInclude Include="Reference.h" />
+    <ClInclude Include="JobProcessRenderCommands.h" />
+    <ClInclude Include="JobUtilityDraw.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="RenderTargets.h" />
+    <ClInclude Include="RWBuffer.h" />
+    <ClInclude Include="SegmentedBuffer.h" />
+    <None Include="ShaderPipeline\ConstantBuffers\CBufferBones.hlsl">
+      <FileType>CppHeader</FileType>
+    </None>
+    <None Include="ShaderPipeline\ConstantBuffers\CBufferLights.hlsl">
+      <FileType>CppHeader</FileType>
+    </None>
+    <None Include="ShaderPipeline\ConstantBuffers\CBufferLocal.hlsl">
+      <FileType>CppHeader</FileType>
+    </None>
+    <None Include="ShaderPipeline\ConstantBuffers\CBufferView.hlsl">
+      <FileType>CppHeader</FileType>
+    </None>
+    <FxCompile Include="ShaderPipeline\ShaderInputs\PhongInputs.hlsl">
+      <FileType>CppHeader</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\ShaderInputs\UtilityInputs.hlsl">
+      <FileType>CppHeader</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <ClInclude Include="JobCreateDrawPrimitive.h" />
+    <ClInclude Include="JobCreateMaterial.h" />
+    <ClInclude Include="JobCreateShader.h" />
+    <ClInclude Include="JobLoadMaterialLibrary.h" />
+    <ClInclude Include="JobLoadObjFile.h" />
+    <ClInclude Include="JobLoadTexture.h" />
+    <ClInclude Include="JobLoadXFile.h" />
+    <ClInclude Include="JobReadFile.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="ConstantsSystem.h" />
+    <ClInclude Include="DrawPrimitive.h" />
+    <ClInclude Include="GeometrySystem.h" />
+    <ClInclude Include="JobSystem.h" />
+    <ClInclude Include="LightSystem.h" />
+    <ClInclude Include="LoadingSystem.h" />
+    <ClInclude Include="MaterialSystem.h" />
+    <ClInclude Include="RenderObject.h" />
+    <ClInclude Include="ShaderPipeline.h" />
+    <ClInclude Include="SkeletalObject.h" />
+    <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="StaticObjectCollection.h" />
+    <ClInclude Include="TextureSystem.h" />
+    <ClInclude Include="ObjFileParser.h" />
+    <ClInclude Include="XFileParser.h" />
+    <ClInclude Include="RunMode.h" />
+    <ClInclude Include="RunModeTest.h" />
+    <ClInclude Include="BinaryTree.h" />
+    <ClInclude Include="BinaryTreeNode.h" />
+    <ClInclude Include="ElementList.h" />
+    <ClInclude Include="HashMap.h" />
+    <ClInclude Include="MultiStageAssetContainer.h" />
+    <ClInclude Include="CommsChannel.h" />
+    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="HIDInputInterface.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Network.h" />
+    <ClInclude Include="Time.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="RenderCommand.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="UtilityDraw.h" />
+    <ClInclude Include="View.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="Debugging.h" />
+    <ClInclude Include="DebugGUI.h" />
+    <ClInclude Include="LiveEditTree.h" />
+    <ClInclude Include="LiveEditVariable.h" />
+    <ClInclude Include="StringDictionary.h" />
+    <ClInclude Include="TimeLine.h" />
+    <ClInclude Include="DrawData.h" />
+    <ClInclude Include="ImageProcessing.h" />
+    <ClInclude Include="TextReader.h" />
+    <ClInclude Include="VertexFormats.h" />
+    <ClInclude Include="VertexProcessing.h" />
+    <ClInclude Include="Allocator.h" />
+    <ClInclude Include="HeapAllocator.h" />
+    <ClInclude Include="MemoryManager.h" />
+    <ClInclude Include="MemoryStream.h" />
+    <ClInclude Include="RingBuffer.h" />
+    <ClInclude Include="StackAllocator.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="LWMutex.h" />
+    <ClInclude Include="Thread.h" />
+    <ClInclude Include="ThreadPool.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Hash64.h" />
+    <ClInclude Include="Macros.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TTyx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MaterialPostprocess.cpp" />
+    <ClCompile Include="Postprocessor.cpp" />
+    <ClCompile Include="ViewController.cpp" />
+    <ClCompile Include="InstancedObject.cpp" />
+    <ClCompile Include="JobCreateDrawPrimitive.cpp" />
+    <ClCompile Include="JobCreateMaterial.cpp" />
+    <ClCompile Include="JobCreateShader.cpp" />
+    <ClCompile Include="JobLoadMaterialLibrary.cpp" />
+    <ClCompile Include="JobLoadObjFile.cpp" />
+    <ClCompile Include="JobLoadTexture.cpp" />
+    <ClCompile Include="JobLoadXFile.cpp" />
+    <ClCompile Include="JobProcessRenderCommands.cpp" />
+    <ClCompile Include="JobReadFile.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="ConstantsSystem.cpp" />
+    <ClCompile Include="DrawPrimitive.cpp" />
+    <ClCompile Include="GeometrySystem.cpp" />
+    <ClCompile Include="JobSystem.cpp" />
+    <ClCompile Include="JobUtilityDraw.cpp" />
+    <ClCompile Include="LightSystem.cpp" />
+    <ClCompile Include="LoadingSystem.cpp" />
+    <ClCompile Include="MaterialExperimental.cpp" />
+    <ClCompile Include="MaterialTextureOps.cpp" />
+    <ClCompile Include="MaterialPhong.cpp" />
+    <ClCompile Include="MaterialPlainColor.cpp" />
+    <ClCompile Include="MaterialSystem.cpp" />
+    <ClCompile Include="MaterialTextured2D.cpp" />
+    <ClCompile Include="RenderObject.cpp" />
+    <ClCompile Include="RenderTargets.cpp" />
+    <ClCompile Include="RWBuffer.cpp" />
+    <ClCompile Include="SegmentedBuffer.cpp" />
+    <ClCompile Include="ShaderPipeline.cpp" />
+    <ClCompile Include="SkeletalObject.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="StaticObjectCollection.cpp" />
+    <ClCompile Include="TextureSystem.cpp" />
+    <ClCompile Include="ObjFileParser.cpp" />
+    <ClCompile Include="XFileParser.cpp" />
+    <ClCompile Include="RunModeTest.cpp" />
+    <ClCompile Include="BinaryTree.cpp" />
+    <ClCompile Include="BinaryTreeNode.cpp" />
+    <ClCompile Include="ElementList.cpp" />
+    <ClCompile Include="HashMap.cpp" />
+    <ClCompile Include="MultiStageAssetContainer.cpp" />
+    <ClCompile Include="CommsChannel.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="HIDInputInterface.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Network.cpp" />
+    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="RenderCommand.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="UtilityDraw.cpp" />
+    <ClCompile Include="View.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Debugging.cpp" />
+    <ClCompile Include="DebugGUI.cpp" />
+    <ClCompile Include="LiveEditTree.cpp" />
+    <ClCompile Include="LiveEditVariable.cpp" />
+    <ClCompile Include="StringDictionary.cpp" />
+    <ClCompile Include="TimeLine.cpp" />
+    <ClCompile Include="DrawData.cpp" />
+    <ClCompile Include="ImageProcessing.cpp" />
+    <ClCompile Include="TextReader.cpp" />
+    <ClCompile Include="VertexProcessing.cpp" />
+    <ClCompile Include="HeapAllocator.cpp" />
+    <ClCompile Include="MemoryManager.cpp" />
+    <ClCompile Include="MemoryStream.cpp" />
+    <ClCompile Include="RingBuffer.cpp" />
+    <ClCompile Include="StackAllocator.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="LWMutex.cpp" />
+    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="ThreadPool.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Hash64.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TTyx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ShaderPipeline\Shaders\Compute\TextureOps.hlsl">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ShaderPipeline\ShaderInputs\ExperimentalInputs.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Pixel\Experimental.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ShaderPipeline\Shaders\Vertex\Experimental.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
