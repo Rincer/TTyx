@@ -1,0 +1,8 @@
+# File patterns to ignore; see `git help ignore` for more information.
+# Lines that start with '#' are comments.
+
+Build*
+TTyx.sdf
+TTyx.v12.suo
+ipch*
+TTyx.opensdf
