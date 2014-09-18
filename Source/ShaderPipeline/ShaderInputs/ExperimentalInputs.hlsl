@@ -16,9 +16,8 @@ struct PS_INPUT_EXPERIMENTAL
 // Shader constants
 cbuffer cbBrdfParams
 {
-	float4 Specular;
-	float4 Diffuse;
-	float4 Roughness;
+	float4 BaseColor;
+	float4 RSM;
 };
 
 

@@ -25,6 +25,9 @@
 
 #include "RunModeTest.h"
 
+
+
+
 CRunModeTest::CRunModeTest() : m_View(NULL),
 m_ViewController(NULL, NULL)
 {
@@ -91,6 +94,17 @@ unsigned short indices[] =
 bool PrintAllNames = false;
 
 void MatchAllocs();
+
+XMFLOAT4 Iron	(0.560, 0.570, 0.580, 0);
+XMFLOAT4 Silver	(0.972, 0.960, 0.915, 0);
+XMFLOAT4 Aluminum	(0.913, 0.921, 0.925, 0);
+XMFLOAT4 Gold	(1.000, 0.766, 0.336, 0);
+XMFLOAT4 Copper	(0.955, 0.637, 0.538, 0);
+XMFLOAT4 Chromium	(0.550, 0.556, 0.554, 0);
+XMFLOAT4 Nickel	(0.660, 0.609, 0.526, 0);
+XMFLOAT4 Titanium	(0.542, 0.497, 0.449, 0);
+XMFLOAT4 Cobalt	(0.662, 0.655, 0.634, 0);
+XMFLOAT4 Platinum	(0.672, 0.637, 0.585, 0);
 //--------------------------------------------------------------------------------------------
 void CRunModeTest::Tick(float DeltaSec)
 {
@@ -118,8 +132,10 @@ void CRunModeTest::Tick(float DeltaSec)
 	static CResourceInfo  m_CBufferInfo;
 	static CCBuffer*	  m_pCBuffer;	
 	static float Yaw = 0.0f;	
-	static float Pitch = 0.0f;		
-	static CMaterial* pMaterial = NULL;
+	static float Pitch = 0.0f;	
+	static const unsigned int scRoughNess = 5;
+	static const unsigned int scMetalNess = 5;
+	static CMaterial* pMaterial[scRoughNess][scMetalNess] = { NULL };
 	if(FirstTime)
 	{		
 //		XMMATRIX LocalToWorld = XMMatrixIdentity();
@@ -160,15 +176,21 @@ void CRunModeTest::Tick(float DeltaSec)
 //		CMaterialMipGenerator::CParameters Params("MipGenerator");
 //		pMaterial = &m_pMaterialSystem->GetMaterial(CMaterialSystem::eMaterialMipGenerator, &Params);
 
-		CMaterialExperimental::CParameters Params(	"Experimental", 
-													&m_pTextureSystem->GetTextureRef("DynamicEnvironmentMap"),
-													&m_pTextureSystem->GetSampler(CTextureSystem::eSamplerLinear),
-													XMFLOAT4(1.0f, 0.79f, 0.21f, 1.0f),
-//													XMFLOAT4(0.8647f, 0.5016f, 0.1344f, 0.5),
-													XMFLOAT4(0.0f, 0.0, 0.0, 1.0f),
-													XMFLOAT4(0.1f, 0.0f, 0.0f, 0.0f));
+		for(unsigned int RoughNess = 0; RoughNess < scRoughNess; RoughNess++)
+		{
+			for(unsigned int MetalNess = 0; MetalNess < scMetalNess; MetalNess++)
+			{
+				char Name[256];
+				sprintf_s(Name, 255, "Experimental_%d_%d", RoughNess, MetalNess);
+				CMaterialExperimental::CParameters Params(	Name, 
+															&m_pTextureSystem->GetTextureRef("DynamicEnvironmentMap"),
+															&m_pTextureSystem->GetSampler(CTextureSystem::eSamplerLinear),
+															Iron, //XMFLOAT4(1.0f, 0.79f, 0.21f, 1.0f), // Base
+															XMFLOAT4(0.1 + RoughNess * 0.9f / scRoughNess, 0.0, 1.0f - 1.0f / scMetalNess * MetalNess, 0.0f));	// RSM
+				pMaterial[RoughNess][MetalNess] = &m_pMaterialSystem->GetMaterial<CMaterialExperimental>(&Params);
+			}
+		}
 
-		pMaterial = &m_pMaterialSystem->GetMaterial<CMaterialExperimental>(&Params);
 //		pComputeShader = &m_pShaderPipeline->GetComputeShader("MipGenerator.hlsl", "CSMain", NULL);
 
 
@@ -245,15 +267,14 @@ void CRunModeTest::Tick(float DeltaSec)
 		s_TTyxSkeletalObject.TickAnimation(DeltaSec);
 		s_TTyxSkeletalObject.SetScaleRotationPosition(0.1f, 0.1f, 0.1f,
 												XM_PIDIV2, -XM_PIDIV2, 0.0f,
-												-50.0f, 0.0f, 0.0f);
+												-100.0f, 0.0f, 0.0f);
 
 		s_TTyxInstancedObject.SetScaleRotationPosition(	2.0f, 2.0f, 2.0f,
 														0.0f, 0.0f, 0.0f,
 														0.0f, 0.0f, 0.0f);
 		s_TTyxInstancedObject.Draw(m_pRenderer, m_pConstantsSystem);
 
-		XMFLOAT3 Pos(0, 15, 0);
-		XMMATRIX LocalToWorld = XMMatrixScaling(15, 15, 15) * XMMatrixTranslation(Pos.x, Pos.y, Pos.z);
+		XMFLOAT3 Pos(-50, 15, 0);
 
 		float Color[4] = { 0, 0, 1, 0 };
 		m_pRenderer->ClearColor(CRenderTargets::eDynamicEnvironmentMapFace0, Color);
@@ -332,7 +353,16 @@ void CRunModeTest::Tick(float DeltaSec)
 
 		s_TTyxSkeletalObject.Draw(m_pRenderer, m_pConstantsSystem);
 		s_TTyxSector.Draw(m_pRenderer, m_pConstantsSystem);
-		m_pUtilityDraw->DrawSphere(LocalToWorld, pMaterial);
+
+		for(unsigned int RoughNess = 0; RoughNess < scRoughNess; RoughNess++)
+		{
+			for(unsigned int MetalNess = 0; MetalNess < scMetalNess; MetalNess++)
+			{
+				XMMATRIX LocalToWorld;		
+				LocalToWorld = XMMatrixScaling(15, 15, 15) * XMMatrixTranslation(Pos.x + 35 * RoughNess, Pos.y + 35 * MetalNess, Pos.z);
+				m_pUtilityDraw->DrawSphere(LocalToWorld, pMaterial[RoughNess][MetalNess]);
+			}
+		}
 
 		m_pRenderer->Postprocess();
 

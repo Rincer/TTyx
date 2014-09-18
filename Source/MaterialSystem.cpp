@@ -22,7 +22,7 @@ static const unsigned int scPlainColorMaterialsSegmentSize = 3;
 static const unsigned int scTextured2DMaterialsSegmentSize = 2;
 static const unsigned int scMipGeneratorMaterialsSegmentSize = 1;
 static const unsigned int scLinearTo2DMaterialsSegmentSize = 3;
-static const unsigned int scExperimentalMaterialsSegmentSize = 1;
+static const unsigned int scExperimentalMaterialsSegmentSize = 100;
 static const unsigned int scPostprocessMaterialsSegmentSize = 1;
 
 static XMVECTOR sPink = XMVectorSet(1.0f, 0.0f, 1.0f, 1.0f);

@@ -45,21 +45,20 @@ m_pCBuffer(NULL)
 }
 
 //----------------------------------------------------------------------------------
-CMaterialExperimental::CParameters::CParameters(const char* pName, CTexture* DynEnvMap, CSampler* DynEnvMapSampler, XMFLOAT4 Specular, XMFLOAT4 Diffuse, XMFLOAT4 Roughness) : CParametersBase(pName),
+CMaterialExperimental::CParameters::CParameters(const char* pName, CTexture* DynEnvMap, CSampler* DynEnvMapSampler, XMFLOAT4 BaseColor, XMFLOAT4 RSM) : CParametersBase(pName),
 m_pDynEnvMap(DynEnvMap),
 m_pDynEnvMapSampler(DynEnvMapSampler),
 m_pCBuffer(NULL)
 {
-	m_BrdfParams.Specular = Specular;
-	m_BrdfParams.Diffuse = Diffuse;
-	m_BrdfParams.Roughness = Roughness;
+	m_BrdfParams.BaseColor = BaseColor;
+	m_BrdfParams.RSM = RSM;
 }
 
 //----------------------------------------------------------------------------------
 void CMaterialExperimental::CParameters::Initialize(CConstantsSystem* pConstantsSystem)
 {
 	char ParamName[256];
-	sprintf_s(ParamName, 255, "CommandBuffer.MaterialPhong.%s", m_Name);
+	sprintf_s(ParamName, 255, "CommandBuffer.MaterialExperimental.%s", m_Name);
 	m_pCBuffer = pConstantsSystem->CreateCBuffer(&m_BrdfParams, sizeof(cbBrdfParams), ParamName);
 }
 

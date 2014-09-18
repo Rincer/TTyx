@@ -13,7 +13,6 @@ class CUtilityDraw;
 class CShaderPipeline;
 class CStringDictionary;
 
-
 class CRunModeTest : public CRunMode
 {
 	public:

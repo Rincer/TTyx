@@ -14,9 +14,8 @@ class CMaterialExperimental final : public CMaterialRender
 				CParameters(const char* pName,
 							CTexture* DynEnvMap,
 							CSampler* DynEnvMapSampler,
-							XMFLOAT4 Specular,
-							XMFLOAT4 Diffuse,
-							XMFLOAT4 Roughness);
+							XMFLOAT4 BaseColor,
+							XMFLOAT4 RSM);
 				CParameters();
 				virtual void Initialize(CConstantsSystem* pConstantsSystem);
 				virtual bool IsLoaded() const;
@@ -24,9 +23,8 @@ class CMaterialExperimental final : public CMaterialRender
 
 				struct cbBrdfParams
 				{
-					XMFLOAT4 Specular;
-					XMFLOAT4 Diffuse;
-					XMFLOAT4 Roughness;				
+					XMFLOAT4 BaseColor;
+					XMFLOAT4 RSM; // Roughness, Specular, Metalness
 				};
 
 				cbBrdfParams m_BrdfParams;
