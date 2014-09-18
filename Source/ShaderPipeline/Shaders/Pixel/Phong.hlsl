@@ -142,15 +142,12 @@ float4 PS( PS_INPUT input) : SV_Target
 	float3 DiffuseReflection = float3(0, 0, 0);
 	float3 SpecularReflection = float3(0, 0, 0);
 	float AngularAttenuation = saturate(dot(L, N));
-
-	if(AngularAttenuation > 0)
-	{
-		float DistanceAttenuation = saturate((LightsColorSqR.w - dot(WorldToLight,WorldToLight)) * LightsPosInvSqR.w);
+	float DistanceAttenuation = saturate((LightsColorSqR.w - dot(WorldToLight,WorldToLight)) * LightsPosInvSqR.w);
 								
-		DiffuseReflection  = AngularAttenuation * DistanceAttenuation * gBaseDiffuse.GetDiffuse(input.Tex);		
-		SpecularReflection = gBaseSpecular.GetSpecular(input.Tex, L, N, CameraPos.xyz - input.WorldPos.xyz) * DistanceAttenuation; 
-	}		
-	float3 LightsColor = (DiffuseReflection + SpecularReflection) * LightsColorSqR.xyz;
+	DiffuseReflection  = gBaseDiffuse.GetDiffuse(input.Tex);		
+	SpecularReflection = gBaseSpecular.GetSpecular(input.Tex, L, N, CameraPos.xyz - input.WorldPos.xyz); 
+
+	float3 LightsColor = DistanceAttenuation * AngularAttenuation * (DiffuseReflection + SpecularReflection) * LightsColorSqR.xyz;
     return float4(LightsColor, 1);
 }
 
