@@ -185,8 +185,8 @@ void CRunModeTest::Tick(float DeltaSec)
 				CMaterialExperimental::CParameters Params(	Name, 
 															&m_pTextureSystem->GetTextureRef("DynamicEnvironmentMap"),
 															&m_pTextureSystem->GetSampler(CTextureSystem::eSamplerLinear),
-															Iron, //XMFLOAT4(1.0f, 0.79f, 0.21f, 1.0f), // Base
-															XMFLOAT4(0.1 + RoughNess * 0.9f / scRoughNess, 0.0, 1.0f - 1.0f / scMetalNess * MetalNess, 0.0f));	// RSM
+															Aluminum, //XMFLOAT4(1.0f, 0.79f, 0.21f, 1.0f), // Base
+															XMFLOAT4(0.1 + RoughNess * 0.9f / scRoughNess, 0.1, 1.0f - 1.0f / (scMetalNess - 1) * MetalNess, 0.0f));	// RSM
 				pMaterial[RoughNess][MetalNess] = &m_pMaterialSystem->GetMaterial<CMaterialExperimental>(&Params);
 			}
 		}
