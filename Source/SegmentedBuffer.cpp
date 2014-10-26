@@ -16,7 +16,7 @@ void CSegmentedBuffer::Initialize(unsigned int NumSegments, unsigned int Segment
 	for (unsigned int SegmentIndex = 0; SegmentIndex < NumSegments; SegmentIndex++)
 	{
 		CRWBuffer* pRWBuffer = new(pRWBufferMemory)CRWBuffer(pDataMemory, SegmentSize);
-		m_WriteList.AddFront(pRWBuffer);
+		m_WriteList.AddFront(0, pRWBuffer);
 		pDataMemory += SegmentSize;
 		pRWBufferMemory += sizeof(CRWBuffer);
 	}
@@ -24,7 +24,10 @@ void CSegmentedBuffer::Initialize(unsigned int NumSegments, unsigned int Segment
 
 //------------------------------------------------------------------------------------------------------------------
 CSegmentedBuffer::CSegmentedBuffer() :	m_pAllocator(NULL),
-										m_pBufferMemory(NULL)
+										m_pBufferMemory(NULL),
+										m_WriteList(&CMemoryManager::GetAllocator()),
+										m_ReadList(&CMemoryManager::GetAllocator())	// use global allocator for lists internal structs
+
 {
 }
 
@@ -39,12 +42,12 @@ CSegmentedBuffer::~CSegmentedBuffer()
 CRWBuffer* CSegmentedBuffer::GetRead()
 {
 	m_Mutex.Acquire(); // Thread safe
-	CList<CRWBuffer>::CIterator* pIterator = m_ReadList.GetFirst();
+	auto pIterator = m_ReadList.GetFirst(0);
 	CRWBuffer* pRWBuffer = NULL;
 	if (pIterator)
 	{
-		pRWBuffer = pIterator->GetData();
-		m_ReadList.Remove(pRWBuffer);
+		pRWBuffer = pIterator->GetValue();
+		m_ReadList.Remove(0, pIterator);
 	}
 	m_Mutex.Release();
 	return pRWBuffer;
@@ -54,12 +57,12 @@ CRWBuffer* CSegmentedBuffer::GetRead()
 CRWBuffer* CSegmentedBuffer::GetWrite()
 {
 	m_Mutex.Acquire(); // Thread safe
-	CList<CRWBuffer>::CIterator* pIterator = m_WriteList.GetFirst();
+	auto pIterator = m_WriteList.GetFirst(0);
 	CRWBuffer* pRWBuffer = NULL;
 	if (pIterator)
 	{
-		pRWBuffer = pIterator->GetData();
-		m_WriteList.Remove(pRWBuffer);
+		pRWBuffer = pIterator->GetValue();
+		m_WriteList.Remove(0, pIterator);
 	}
 	m_Mutex.Release();
 	return pRWBuffer;
@@ -70,7 +73,7 @@ void CSegmentedBuffer::PutRead(CRWBuffer* pBuffer)
 {
 	Assert(pBuffer->GetState() == CRWBuffer::eReading);
 	m_Mutex.Acquire(); // Thread safe
-	m_ReadList.AddBack(pBuffer);
+	m_ReadList.AddBack(0, pBuffer);
 	m_Mutex.Release();
 }
 
@@ -79,7 +82,7 @@ void CSegmentedBuffer::PutWrite(CRWBuffer* pBuffer)
 {
 	Assert(pBuffer->GetState() == CRWBuffer::eWriting);
 	m_Mutex.Acquire(); // Thread safe
-	m_WriteList.AddFront(pBuffer);
+	m_WriteList.AddFront(0, pBuffer);
 	m_Mutex.Release();
 }
 

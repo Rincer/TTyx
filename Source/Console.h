@@ -31,19 +31,17 @@ class CConsole
 		};
 				
 				
-		class CConsoleCommand : public IIterant<CList<CConsoleCommand>>
+		class CConsoleCommand 
 		{
 			public:
 				CConsoleCommand(const char* pToken, CConsole* pConsole);
 				~CConsoleCommand();
 				
 				bool MatchesToken(const char* pInputLine, unsigned int& CharIndex);
-				virtual CList<CConsoleCommand>::CIterator* GetIterator() { return &m_Iterator; }
 				virtual bool Execute(const char* pCommandString) = 0; 
 				
 			private:
-				char m_Token[256];
-				CList<CConsoleCommand>::CIterator m_Iterator;
+				char m_Token[256];				
 		};
 		
 		void ProcessHIDInput(const unsigned char* pInputBuffer);
@@ -74,7 +72,8 @@ class CConsole
 		float			m_CursorTimer;
 		float			m_CursorTimerDelay;	
 		unsigned int	m_CurrentLine;	
-		CList<CConsoleCommand>	m_RegisteredCommands;
+		
+		CMultiList<1, CConsoleCommand>	m_RegisteredCommands;
 // System level components
 		CReference<CMaterialSystem*> m_rMaterialSystem;
 		CReference<CRenderer*> m_rRenderer;

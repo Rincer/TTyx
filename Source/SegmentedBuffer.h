@@ -34,8 +34,8 @@ class CSegmentedBuffer
 
 
 	private:
-		CList<CRWBuffer>	m_WriteList;
-		CList<CRWBuffer>	m_ReadList;
+		CMultiList<1, CRWBuffer>	m_WriteList;
+		CMultiList<1, CRWBuffer>	m_ReadList;
 		CLWMutex			m_Mutex;
 		unsigned char*		m_pBufferMemory;
 		IAllocator*			m_pAllocator;

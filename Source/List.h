@@ -1,27 +1,28 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 
+#include "HeapAllocator.h"
 //---------------------------------------------------------------------
-// Double linked list
-template<class DataType>
-class CList
+// Double linked list of pointers to ValueType
+template<unsigned int NumLists, class ValueType>
+class CMultiList
 {
 	public:
 		class CIterator
 		{
 			public:
 				//-------------------------------------------------------------------------------------------------------
-				CIterator(DataType* pData)
+				CIterator(ValueType* pValue)
 				{
-					m_pPrev = NULL;
-					m_pNext = NULL;
-					m_pData = pData;
+					m_pPrev = nullptr;
+					m_pNext = nullptr;
+					m_pValue = pValue;
 				}
 
 				//-------------------------------------------------------------------------------------------------------
-				DataType* GetData()
+				ValueType* GetValue()
 				{
-					return m_pData;
+					return m_pValue;
 				}
 
 				//-------------------------------------------------------------------------------------------------------
@@ -33,80 +34,118 @@ class CList
 			private:
 				CIterator*	m_pPrev;
 				CIterator*	m_pNext;
-				DataType*	m_pData;
+				ValueType*	m_pValue;
 
-			friend class CList<DataType>;
+			friend class CMultiList;
 		};
 
 		//-------------------------------------------------------------------------------------------------------
-		CList()
-		{
-			m_pFirst = NULL;
-			m_pLast = NULL;
-		}
-
-		//-------------------------------------------------------------------------------------------------------
-		~CList()
-		{
-		}
-
-		//-------------------------------------------------------------------------------------------------------
-		void AddFront(DataType* pData)
-		{
-			CIterator* pIterator = pData->GetIterator();
-			if (m_pFirst == NULL)
+		CMultiList(CHeapAllocator* pAllocator) : m_pFree(nullptr),
+			m_pAllocator(pAllocator)
+		{	
+			for(unsigned int ListIndex = 0; ListIndex < NumLists; ListIndex++)
 			{
-				pIterator->m_pNext = NULL;
-				pIterator->m_pPrev = NULL;
-				m_pFirst = pIterator;
-				m_pLast = m_pFirst;
+				m_pFirst[ListIndex] = nullptr;
+				m_pLast[ListIndex] = nullptr;
+			}
+		}
+
+		//-------------------------------------------------------------------------------------------------------
+		~CMultiList()
+		{
+		}
+
+		//-------------------------------------------------------------------------------------------------------
+		void AddFront(unsigned int ListIndex, ValueType* pValue)
+		{	
+			Assert(ListIndex < NumLists);
+			CIterator* pIterator = GetIterator(pValue);	
+			LinkFront(ListIndex, pIterator);
+		}
+
+		//-------------------------------------------------------------------------------------------------------
+		void AddBack(unsigned int ListIndex, ValueType* pValue)
+		{		
+			Assert(ListIndex < NumLists);
+			CIterator* pIterator = GetIterator(pValue);	
+			LinkBack(ListIndex, pIterator);
+		}
+
+		//-------------------------------------------------------------------------------------------------------
+		void Remove(unsigned int ListIndex, CIterator* pIterator)
+		{
+			UnLink(ListIndex, pIterator);		
+		}
+
+		bool IsEmpty(unsigned int ListIndex)
+		{
+			return m_pFirst[ListIndex] == nullptr;
+		}
+
+		CIterator* GetFirst(unsigned int ListIndex)
+		{
+			return m_pFirst[ListIndex];
+		}
+
+	private:
+
+		void LinkFront(unsigned int ListIndex, CIterator* pIterator)
+		{
+			CIterator*& pFirst = m_pFirst[ListIndex];
+			CIterator*& pLast = m_pLast[ListIndex];
+			if (pFirst == nullptr)
+			{
+				pIterator->m_pNext = nullptr;
+				pIterator->m_pPrev = nullptr;
+				pFirst = pIterator;
+				pLast = pFirst;
 			}
 			else					// add at the start
 			{
-				pIterator->m_pNext = m_pFirst;
-				pIterator->m_pPrev = NULL;
-				m_pFirst->m_pPrev = pIterator;
-				m_pFirst = pIterator;
+				pIterator->m_pNext = pFirst;
+				pIterator->m_pPrev = nullptr;
+				pFirst->m_pPrev = pIterator;
+				pFirst = pIterator;
 			}
 		}
 
-		//-------------------------------------------------------------------------------------------------------
-		void AddBack(DataType* pData)
+		void LinkBack(unsigned int ListIndex, CIterator* pIterator)
 		{
-			CIterator* pIterator = pData->GetIterator();
-			if (m_pFirst == NULL)
+			CIterator*& pFirst = m_pFirst[ListIndex];
+			CIterator*& pLast = m_pLast[ListIndex];
+			if (pFirst == nullptr)
 			{
-				Assert(m_pLast == NULL);
-				pIterator->m_pNext = NULL;
-				pIterator->m_pPrev = NULL;
-				m_pFirst = pIterator;
-				m_pLast = m_pFirst;
+				Assert(pLast == nullptr);
+				pIterator->m_pNext = nullptr;
+				pIterator->m_pPrev = nullptr;
+				pFirst = pIterator;
+				pLast = pFirst;
 			}
 			else
 			{
-				m_pLast->m_pNext = pIterator;
-				pIterator->m_pPrev = m_pLast;
-				m_pLast = pIterator;
-				m_pLast->m_pNext = NULL;
+				pLast->m_pNext = pIterator;
+				pIterator->m_pPrev = pLast;
+				pLast = pIterator;
+				pLast->m_pNext = nullptr;
 			}
 		}
 
-		//-------------------------------------------------------------------------------------------------------
-		void Remove(DataType* pData)
+		void UnLink(unsigned int ListIndex, CIterator* pIterator)
 		{
-			CIterator* pIterator = pData->GetIterator();
-			if (pIterator == m_pFirst)
+			CIterator*& pFirst = m_pFirst[ListIndex];
+			CIterator*& pLast = m_pLast[ListIndex];
+			if (pIterator == pFirst)
 			{
-				m_pFirst = m_pFirst->m_pNext;
-				if (!m_pFirst) // Was 1st and last element in the list
+				pFirst = pFirst->m_pNext;
+				if (!pFirst) // Was 1st and last element in the list
 				{
-					m_pLast = NULL;
+					pLast = nullptr;
 				}
 			}
-			else if (pIterator == m_pLast)
+			else if (pIterator == pLast)
 			{
-				m_pLast = pIterator->m_pPrev;
-				m_pLast->m_pNext = NULL;
+				pLast = pIterator->m_pPrev;
+				pLast->m_pNext = nullptr;
 			}
 			else
 			{
@@ -116,30 +155,46 @@ class CList
 					pIterator->m_pNext->m_pPrev = pIterator->m_pPrev;
 				}
 			}
+			// recycle this iterator
+			PutIterator(pIterator);
 		}
 
-		bool IsEmpty()
+		// get from a list of discarded iterators
+		CIterator* GetIterator(ValueType* pValue)
 		{
-			return m_pFirst == NULL;
+			CIterator* pIterator;
+			if(m_pFree == nullptr)
+			{
+				pIterator = (CIterator*)m_pAllocator->Alloc(sizeof(CIterator));
+				Assert(pIterator);
+			}
+			else
+			{
+				pIterator = m_pFree;
+				m_pFree = m_pFree->m_pNext;
+			}
+			pIterator->m_pValue = pValue;
+			return pIterator;
 		}
 
-		CIterator* GetFirst()
+		// put in a list of discarded iterators
+		void PutIterator(CIterator* pIterator)
 		{
-			return m_pFirst;
+			if(m_pFree)
+			{
+				pIterator->m_pNext = m_pFree;
+			}
+			else
+			{
+				pIterator->m_pNext = nullptr;
+			}
+			m_pFree = pIterator;
 		}
 
-	private:
-		CIterator* m_pFirst;
-		CIterator* m_pLast;
-};
-
-//--------------------------------------------------------------------------------------------
-// Interface for any class that wants to be inserted into a List
-template<class DataType>
-class IIterant
-{
-	public:
-		virtual typename DataType::CIterator* GetIterator() = 0;
+		CIterator* m_pFirst[NumLists];
+		CIterator* m_pLast[NumLists];
+		CIterator* m_pFree;
+		CHeapAllocator* m_pAllocator;
 };
 
 #endif

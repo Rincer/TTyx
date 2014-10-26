@@ -37,7 +37,7 @@ class CJobSystem
 		};
 
 		//-------------------------------------------------------------------------------------------
-		class CJob : public IIterant<CList<CJob>>
+		class CJob 
 		{
 			public:
 
@@ -45,8 +45,7 @@ class CJobSystem
 				CJob(eJobType Type);				
 				virtual ~CJob();
 				virtual unsigned int Execute(unsigned int ThreadID) = 0;
-				virtual void OnComplete(); // default behavior is that the job releases itself, this is overriden when job needs custom termination (such as releasing memory being used on a different thread)
-				virtual CList<CJob>::CIterator* GetIterator() { return &m_Iterator; }
+				virtual void OnComplete(); // default behavior is that the job releases itself, this is overriden when job needs custom termination (such as releasing memory being used on a different thread)			
 				eJobType GetType() { return m_Type;}
 				eJobPriority GetPriority() { return m_Priority; }
 				unsigned int GetId() { return m_Id; }
@@ -55,8 +54,7 @@ class CJobSystem
 		
 				eJobType		m_Type;
 				unsigned int	m_Id;
-				eJobPriority	m_Priority;		
-				CList<CJob>::CIterator m_Iterator;
+				eJobPriority	m_Priority;						
 				CJobSystem*	m_pJobSystem; // Parent system
 		};				
 
@@ -96,7 +94,7 @@ class CJobSystem
 		void Acquire();
 		void Release();
 		static const unsigned int sc_ThreadsPerCore = 2;
-		CList<CJob>*	m_pJobQueue[eMaxPriorities];
+		CMultiList<eMaxPriorities, CJob>*	m_pJobQueue;
 		CThreadPool*	m_pThreadPool;
 		CHeapAllocator* m_pAllocator;
 		CLWMutex		m_Mutex;

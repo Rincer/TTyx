@@ -320,8 +320,7 @@ CUtilityDraw::CUtilityDraw(	CRenderer** ppRenderer,
 	m_StaticSegmentedBuffer.Initialize(3, scUtilityDrawCommandBufferSize, m_pAllocator);
 	m_DynamicSegmentedBuffer.Initialize(3, scUtilityDrawCommandBufferSize, m_pAllocator);
 	m_pStaticRWBuffer = m_StaticSegmentedBuffer.GetWrite();
-	m_pDynamicRWBuffer = m_DynamicSegmentedBuffer.GetWrite();
-	
+	m_pDynamicRWBuffer = m_DynamicSegmentedBuffer.GetWrite();	
 }
 
 //------------------------------------------------------------------------------------

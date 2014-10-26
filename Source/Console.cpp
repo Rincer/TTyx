@@ -16,7 +16,8 @@ CConsole::CConsole(	CInput* pInput,
 					CDebugGUI** ppDebugGUI) : m_rMaterialSystem(ppMaterialSystem),
 											m_rRenderer(ppRenderer),
 											m_rUtilityDraw(ppUtilityDraw),
-											m_rDebugGUI(ppDebugGUI)
+											m_rDebugGUI(ppDebugGUI),
+											m_RegisteredCommands(&CMemoryManager::GetAllocator())	// use global allocator for lists internal structs
 {	
 	m_CursorPos = 1;
 	m_InputLength = 0;
@@ -177,9 +178,9 @@ void CConsole::HomeKey()
 //------------------------------------------------------------------------------------------------
 void CConsole::ReturnKey()
 {
-	for (CList<CConsoleCommand>::CIterator* pIterator = m_RegisteredCommands.GetFirst(); pIterator; pIterator = pIterator->Next())
+	for (auto pIterator = m_RegisteredCommands.GetFirst(0); pIterator; pIterator = pIterator->Next())
 	{
-		CConsoleCommand* pCommand = pIterator->GetData();
+		CConsoleCommand* pCommand = pIterator->GetValue();
 		unsigned int CharIndex; // Index of the next char after the token
 		if(pCommand->MatchesToken(m_InputString[m_CurrentLine], CharIndex))
 		{
@@ -211,7 +212,7 @@ void CConsole::Scroll(int Lines)
 //------------------------------------------------------------------------------------------------
 void CConsole::AddCommand(CConsoleCommand* pCommand)
 {
-	m_RegisteredCommands.AddBack(pCommand);
+	m_RegisteredCommands.AddBack(0, pCommand);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -292,7 +293,7 @@ void CConsole::ProcessHIDInput(const unsigned char* pInputBuffer)
 }
 
 //---------------------------------------------------------------------------------------------			
-CConsole::CConsoleCommand::CConsoleCommand(const char* pToken, CConsole* pConsole) : m_Iterator(this)
+CConsole::CConsoleCommand::CConsoleCommand(const char* pToken, CConsole* pConsole) 
 {
 	strcpy_s(m_Token, 255, pToken);
 	pConsole->AddCommand(this);

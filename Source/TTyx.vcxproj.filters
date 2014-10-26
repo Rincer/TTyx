@@ -338,6 +338,9 @@
     <ClInclude Include="Postprocessor.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="HashTable.h">
+      <Filter>AssetContainers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JobCreateDrawPrimitive.cpp">

@@ -12,16 +12,15 @@ static const unsigned int sc_JobSystemMemory = 128 * 1024; // Memory for creatin
 CJobSystem::CJob::CJob(unsigned int Id, eJobPriority Priority, CJobSystem*	pJobSystem) :m_Type(eJobInvalid),
 																						 m_Id(Id),
 																						 m_pJobSystem(pJobSystem),
-																						 m_Priority(Priority),
-																						 m_Iterator(this)
+																						 m_Priority(Priority)
+																						
 
 { 
 }
 
-
 //-------------------------------------------------------------------------------------------
-CJobSystem::CJob::CJob(eJobType Type) : m_Type(Type),
-										m_Iterator(this)
+CJobSystem::CJob::CJob(eJobType Type) : m_Type(Type)
+										
 { 
 }
 
@@ -29,8 +28,6 @@ CJobSystem::CJob::CJob(eJobType Type) : m_Type(Type),
 CJobSystem::CJob::~CJob()
 { 
 }
-
-
 
 //-------------------------------------------------------------------------------------------
 void CJobSystem::CJob::OnComplete()
@@ -68,10 +65,7 @@ void CJobSystem::Release()
 //-------------------------------------------------------------------------------------------
 void CJobSystem::Startup()
 {
-	for(unsigned int PriorityIndex = 0; PriorityIndex < eMaxPriorities; PriorityIndex++)
-	{
-		m_pJobQueue[PriorityIndex] = new(m_pAllocator->Alloc(sizeof(CList<CJob>))) CList<CJob>();
-	}
+	m_pJobQueue = new(m_pAllocator->Alloc(sizeof(CMultiList<eMaxPriorities, CJob>))) CMultiList<eMaxPriorities, CJob>(&CMemoryManager::GetAllocator());
 	m_pThreadPool = new(m_pAllocator->Alloc(sizeof(CThreadPool))) CThreadPool(this, m_pAllocator, sc_ThreadsPerCore, *m_rTimeLine);
 	m_JobId = 0;
 }
@@ -81,19 +75,15 @@ void CJobSystem::Shutdown()
 {	
 	m_pThreadPool->~CThreadPool();
 	m_pAllocator->Free(m_pThreadPool);
-	for(unsigned int PriorityIndex = 0; PriorityIndex < eMaxPriorities; PriorityIndex++)
-	{
-		m_pJobQueue[PriorityIndex]->~CList<CJob>();
-		m_pAllocator->Free(m_pJobQueue[PriorityIndex]);
-	}
+	m_pJobQueue->~CMultiList<eMaxPriorities, CJob>();
+	m_pAllocator->Free(m_pJobQueue);
 }
 
 //-------------------------------------------------------------------------------------------
 void CJobSystem::AddJob(CJob* pJob)
-{
-	CList<CJob>* pJobQueue = m_pJobQueue[pJob->GetPriority()];
+{	
 	Acquire();
-	pJobQueue->AddBack(pJob);
+	m_pJobQueue->AddBack(pJob->GetPriority(), pJob);
 	m_TotalJobs++;
 	Release();
 	m_pThreadPool->StartJobs();
@@ -105,13 +95,12 @@ CJobSystem::CJob* CJobSystem::GetJob()
 	CJobSystem::CJob* pJob = NULL;
 	Acquire();
 	for (int PriorityIndex = eMaxPriorities - 1; PriorityIndex >= ePriority0; PriorityIndex--) // From highest to lowest
-	{
-		CList<CJobSystem::CJob>::CIterator* pIterator = NULL;
-		pIterator = m_pJobQueue[PriorityIndex]->GetFirst();
+	{	
+		auto* pIterator = m_pJobQueue->GetFirst(PriorityIndex);
 		if (pIterator)
 		{
-			pJob = pIterator->GetData();
-			m_pJobQueue[PriorityIndex]->Remove(pJob);
+			pJob = pIterator->GetValue();
+			m_pJobQueue->Remove(PriorityIndex, pIterator);
 			m_TotalJobs--;
 			break;
 		}
@@ -154,7 +143,7 @@ void CJobSystem::YieldToHigherPriority(eJobPriority Priority, unsigned int Threa
 {
 	for (int PriorityIndex = CJobSystem::eMaxPriorities - 1; PriorityIndex > Priority; PriorityIndex--) // From highest to lowest
 	{
-		if (!m_pJobQueue[PriorityIndex]->IsEmpty()) // Not thread safe, but we are only reading, worst case we will yield unnecesserily
+		if (!m_pJobQueue->IsEmpty(PriorityIndex)) // Not thread safe, but we are only reading, worst case we will yield unnecesserily
 		{
 			m_pThreadPool->ExecuteJob(ThreadID);
 			return;

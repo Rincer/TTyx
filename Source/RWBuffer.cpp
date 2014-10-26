@@ -7,8 +7,7 @@ CRWBuffer::CRWBuffer(unsigned char* pMemory, unsigned int Size) :	m_State(eWriti
 																	m_pMemory(pMemory),
 																	m_Offset(0),
 																	m_Capacity(0),
-																	m_Size(Size),
-																	m_Iterator(this),
+																	m_Size(Size),																
 																	m_IsLocked(false)
 {	
 }

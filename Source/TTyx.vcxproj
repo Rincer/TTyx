@@ -136,6 +136,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HashTable.h" />
     <ClInclude Include="MaterialPostprocess.h" />
     <ClInclude Include="Postprocessor.h" />
     <ClInclude Include="ViewController.h" />

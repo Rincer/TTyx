@@ -95,16 +95,17 @@ bool PrintAllNames = false;
 
 void MatchAllocs();
 
-XMFLOAT4 Iron	(0.560, 0.570, 0.580, 0);
-XMFLOAT4 Silver	(0.972, 0.960, 0.915, 0);
-XMFLOAT4 Aluminum	(0.913, 0.921, 0.925, 0);
-XMFLOAT4 Gold	(1.000, 0.766, 0.336, 0);
-XMFLOAT4 Copper	(0.955, 0.637, 0.538, 0);
-XMFLOAT4 Chromium	(0.550, 0.556, 0.554, 0);
-XMFLOAT4 Nickel	(0.660, 0.609, 0.526, 0);
-XMFLOAT4 Titanium	(0.542, 0.497, 0.449, 0);
-XMFLOAT4 Cobalt	(0.662, 0.655, 0.634, 0);
-XMFLOAT4 Platinum	(0.672, 0.637, 0.585, 0);
+XMFLOAT4 Iron	(0.560f, 0.570f, 0.580f, 0.f);
+XMFLOAT4 Silver	(0.972f, 0.960f, 0.915f, 0.f);
+XMFLOAT4 Aluminum	(0.913f, 0.921f, 0.925f, 0.f);
+XMFLOAT4 Gold	(1.000f, 0.766f, 0.336f, 0.f);
+XMFLOAT4 Copper	(0.955f, 0.637f, 0.538f, 0.f);
+XMFLOAT4 Chromium	(0.550f, 0.556f, 0.554f, 0.f);
+XMFLOAT4 Nickel	(0.660f, 0.609f, 0.526f, 0.f);
+XMFLOAT4 Titanium	(0.542f, 0.497f, 0.449f, 0.f);
+XMFLOAT4 Cobalt	(0.662f, 0.655f, 0.634f, 0.f);
+XMFLOAT4 Platinum	(0.672f, 0.637f, 0.585f, 0.f);
+XMFLOAT4 Bronze ( 205.0f / 255.0f, 127.0f / 255.0f, 50.0f / 255.0f, 0.f);
 //--------------------------------------------------------------------------------------------
 void CRunModeTest::Tick(float DeltaSec)
 {
@@ -185,8 +186,8 @@ void CRunModeTest::Tick(float DeltaSec)
 				CMaterialExperimental::CParameters Params(	Name, 
 															&m_pTextureSystem->GetTextureRef("DynamicEnvironmentMap"),
 															&m_pTextureSystem->GetSampler(CTextureSystem::eSamplerLinear),
-															Aluminum, //XMFLOAT4(1.0f, 0.79f, 0.21f, 1.0f), // Base
-															XMFLOAT4(0.1 + RoughNess * 0.9f / scRoughNess, 0.1, 1.0f - 1.0f / (scMetalNess - 1) * MetalNess, 0.0f));	// RSM
+															Bronze, //XMFLOAT4(1.0f, 0.79f, 0.21f, 1.0f), // Base
+															XMFLOAT4(0.1f + RoughNess * 0.9f / scRoughNess, 0.1f, 1.0f - 1.0f / (scMetalNess - 1) * MetalNess, 0.0f));	// RSM
 				pMaterial[RoughNess][MetalNess] = &m_pMaterialSystem->GetMaterial<CMaterialExperimental>(&Params);
 			}
 		}

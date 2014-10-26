@@ -4,7 +4,7 @@
 #include "List.h"
 
 // Read write buffer
-class CRWBuffer : public IIterant<CList<CRWBuffer>>
+class CRWBuffer
 {
 	public:
 
@@ -21,8 +21,7 @@ class CRWBuffer : public IIterant<CList<CRWBuffer>>
 		void BeginRead(void** ppData, unsigned int Size);	// Get memory for reading checking if enough data is available
 		void EndRead(unsigned int Size);					// Adjust the offset with the actual amount of data read
 		bool IsEmpty();
-		eState GetState() { return m_State; }
-		virtual CList<CRWBuffer>::CIterator* GetIterator() { return &m_Iterator; }
+		eState GetState() { return m_State; }	
 
 	private:
 
@@ -31,7 +30,6 @@ class CRWBuffer : public IIterant<CList<CRWBuffer>>
 		unsigned int	m_Offset;
 		unsigned int	m_Capacity;
 		unsigned int	m_Size;
-		CList<CRWBuffer>::CIterator m_Iterator;
 		bool			m_IsLocked;
 };
 
