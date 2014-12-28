@@ -1,13 +1,14 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 
-#include "HeapAllocator.h"
+#include "PooledAllocator.h"
 //---------------------------------------------------------------------
 // Double linked list of pointers to ValueType
 template<unsigned int NumLists, class ValueType>
 class CMultiList
 {
 	public:
+		static const unsigned int sc_MaxMultiListIterators = 16 * 1024;
 		class CIterator
 		{
 			public:
@@ -40,8 +41,7 @@ class CMultiList
 		};
 
 		//-------------------------------------------------------------------------------------------------------
-		CMultiList(CHeapAllocator* pAllocator) : m_pFree(nullptr),
-			m_pAllocator(pAllocator)
+		CMultiList(CPooledAllocator* pAllocator) : m_pAllocator(pAllocator)
 		{	
 			for(unsigned int ListIndex = 0; ListIndex < NumLists; ListIndex++)
 			{
@@ -162,17 +162,9 @@ class CMultiList
 		// get from a list of discarded iterators
 		CIterator* GetIterator(ValueType* pValue)
 		{
-			CIterator* pIterator;
-			if(m_pFree == nullptr)
-			{
-				pIterator = (CIterator*)m_pAllocator->Alloc(sizeof(CIterator));
-				Assert(pIterator);
-			}
-			else
-			{
-				pIterator = m_pFree;
-				m_pFree = m_pFree->m_pNext;
-			}
+			CIterator* pIterator;			
+			pIterator = (CIterator*)m_pAllocator->Alloc(sizeof(CIterator));
+			Assert(pIterator);
 			pIterator->m_pValue = pValue;
 			return pIterator;
 		}
@@ -180,21 +172,12 @@ class CMultiList
 		// put in a list of discarded iterators
 		void PutIterator(CIterator* pIterator)
 		{
-			if(m_pFree)
-			{
-				pIterator->m_pNext = m_pFree;
-			}
-			else
-			{
-				pIterator->m_pNext = nullptr;
-			}
-			m_pFree = pIterator;
+			m_pAllocator->Free(pIterator);
 		}
 
 		CIterator* m_pFirst[NumLists];
 		CIterator* m_pLast[NumLists];
-		CIterator* m_pFree;
-		CHeapAllocator* m_pAllocator;
+		CPooledAllocator* m_pAllocator;
 };
 
 #endif

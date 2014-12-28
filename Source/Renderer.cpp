@@ -71,13 +71,15 @@ CRenderer::CRenderer(HWND Wnd,	CTimeLine**  ppTimeLine,
 								CMaterialSystem** ppMaterialSystem,
 								CConstantsSystem** ppConstantsSystem,
 								CDrawPrimitiveSystem** ppDrawPrimitiveSystem,
-								CGeometrySystem** ppGeometrySystem) : m_rTimeLine(ppTimeLine),
+								CGeometrySystem** ppGeometrySystem,
+								CPooledAllocator* pPooledAllocator) : m_rTimeLine(ppTimeLine),
 																		m_rTextureSystem(ppTextureSystem),
 																		m_rJobSystem(ppJobSystem),
 																		m_rMaterialSystem(ppMaterialSystem),
 																		m_rConstantsSystem(ppConstantsSystem),
 																		m_rDrawPrimitiveSystem(ppDrawPrimitiveSystem),
-																		m_rGeometrySystem(ppGeometrySystem)
+																		m_rGeometrySystem(ppGeometrySystem),
+																		m_CommandBuffer(pPooledAllocator)
 {
 	m_pd3dDevice = NULL;
 	m_pImmediateContext = NULL;

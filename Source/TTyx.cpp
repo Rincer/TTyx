@@ -5,6 +5,7 @@
 #include "Network.h"
 #include "LiveEditTree.h"
 #include "MemoryManager.h"
+#include "PooledAllocator.h"
 #include "Renderer.h"
 #include "ShaderPipeline.h"
 #include "TextureSystem.h"
@@ -85,25 +86,38 @@ CTimeLine::CEventDesc TTyx::m_ProfilingEvents[MainThreadEvents::eTotalEvents + 1
 static TTyx sTTyx; // One global instance of the app
 
 //--------------------------------------------------------------------------------------
+
+void TTyx::ConstructMemoryPools()
+{
+	m_pMultiListPool = new CPooledAllocator(sizeof(CMultiList<1, int>::CIterator), CMultiList<1, int>::sc_MaxMultiListIterators, 4, &CMemoryManager::GetAllocator());
+}
+
+//--------------------------------------------------------------------------------------
+void TTyx::DestructMemoryPools()
+{
+	delete m_pMultiListPool;
+}
+
+//--------------------------------------------------------------------------------------
 void TTyx::ConstructComponents()
 {
 	// Order is important!
 	CTime::Initialize();
 	m_pStringDictionary = new CStringDictionary();
 	m_pInput = new CInput();
-	m_pConsole = new CConsole(m_pInput, &m_pMaterialSystem, &m_pRenderer, &m_pUtilityDraw, &m_pDebugGUI);
+	m_pConsole = new CConsole(m_pInput, &m_pMaterialSystem, &m_pRenderer, &m_pUtilityDraw, &m_pDebugGUI, m_pMultiListPool);
 	m_pTimeLine = new CTimeLine(m_pConsole, &m_pMaterialSystem, &m_pRenderer, &m_pUtilityDraw, &m_pDebugGUI);
 	m_pNetwork = new CNetwork(&m_pTimeLine);
 	CLiveEditTree::Instance().Initialize(m_pNetwork);
 	m_pDrawPrimitiveSystem = new CDrawPrimitiveSystem(&m_pStringDictionary);
 	m_pTextureSystem = new CTextureSystem(&m_pStringDictionary, &m_pJobSystem, &m_pRenderer, &m_pLoadingSystem, &m_pDrawPrimitiveSystem, &m_pMaterialSystem, &m_pConstantsSystem);
-	m_pRenderer = new CRenderer(m_Wnd.GetWnd(), &m_pTimeLine, &m_pTextureSystem, &m_pJobSystem, &m_pMaterialSystem, &m_pConstantsSystem, &m_pDrawPrimitiveSystem, &m_pGeometrySystem);
+	m_pRenderer = new CRenderer(m_Wnd.GetWnd(), &m_pTimeLine, &m_pTextureSystem, &m_pJobSystem, &m_pMaterialSystem, &m_pConstantsSystem, &m_pDrawPrimitiveSystem, &m_pGeometrySystem, m_pMultiListPool);
 	m_pConstantsSystem = new CConstantsSystem(&m_pRenderer, &m_pStringDictionary );
 	m_pShaderPipeline = new CShaderPipeline(&m_pStringDictionary, &m_pJobSystem, &m_pRenderer);
 	m_pMaterialSystem = new CMaterialSystem(&m_pStringDictionary, &m_pJobSystem, &m_pShaderPipeline, &m_pConstantsSystem);
 	m_pGeometrySystem = new CGeometrySystem(&m_pRenderer, &m_pStringDictionary);
-	m_pJobSystem = new CJobSystem(&m_pTimeLine);
-	m_pUtilityDraw = new CUtilityDraw(&m_pRenderer, &m_pConstantsSystem, &m_pGeometrySystem, &m_pStringDictionary, &m_pMaterialSystem, &m_pDrawPrimitiveSystem);
+	m_pJobSystem = new CJobSystem(&m_pTimeLine, m_pMultiListPool);
+	m_pUtilityDraw = new CUtilityDraw(&m_pRenderer, &m_pConstantsSystem, &m_pGeometrySystem, &m_pStringDictionary, &m_pMaterialSystem, &m_pDrawPrimitiveSystem, m_pMultiListPool);
 	m_pAnimationSystem = new CAnimationSystem(&m_pStringDictionary);
 	m_pSkeletonSystem = new CSkeletonSystem(&m_pStringDictionary);
 	m_pRenderObjectSystem = new CRenderObjectSystem(&m_pStringDictionary, &m_pUtilityDraw);
@@ -169,6 +183,7 @@ void TTyx::Startup(HINSTANCE Instance, int CmdShow)
 {
 	m_Wnd.Initialize(WndProc, Instance, CmdShow, L"TTyx", L"TTyx", 1024, 768);
 	CWindow::SetCurrentViewWnd(m_Wnd.GetWnd());
+	ConstructMemoryPools();
 	ConstructComponents();
 
 	m_pTimeLine->RegisterThread("Main", TTyx::m_ProfilingEvents);
@@ -222,6 +237,7 @@ void TTyx::Shutdown()
 
 	m_pTimeLine->Shutdown();
 	DestructComponents();
+	DestructMemoryPools();
 }
 
 

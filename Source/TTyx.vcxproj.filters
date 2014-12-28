@@ -341,6 +341,9 @@
     <ClInclude Include="HashTable.h">
       <Filter>AssetContainers</Filter>
     </ClInclude>
+    <ClInclude Include="PooledAllocator.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JobCreateDrawPrimitive.cpp">
@@ -578,6 +581,9 @@
     </ClCompile>
     <ClCompile Include="Postprocessor.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PooledAllocator.cpp">
+      <Filter>Memory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

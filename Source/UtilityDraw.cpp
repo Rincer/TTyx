@@ -262,12 +262,15 @@ CUtilityDraw::CUtilityDraw(	CRenderer** ppRenderer,
 							CGeometrySystem** ppGeometrySystem, 
 							CStringDictionary** ppStringDictionary,
 							CMaterialSystem**	ppMaterialSystem,
-							CDrawPrimitiveSystem** ppDrawPrimitiveSystem) : m_rRenderer(ppRenderer),
+							CDrawPrimitiveSystem** ppDrawPrimitiveSystem,
+							CPooledAllocator* pPooledAllocator) : m_rRenderer(ppRenderer),
 																			m_rConstantsSystem(ppConstantsSystem),
 																			m_rGeometrySystem(ppGeometrySystem),
 																			m_rStringDictionary(ppStringDictionary),
 																			m_rMaterialSystem(ppMaterialSystem),
-																			m_rDrawPrimitiveSystem(ppDrawPrimitiveSystem)
+																			m_rDrawPrimitiveSystem(ppDrawPrimitiveSystem),
+																			m_DynamicSegmentedBuffer(pPooledAllocator),
+																			m_StaticSegmentedBuffer(pPooledAllocator)
 
 {
 	m_State = eNone;		

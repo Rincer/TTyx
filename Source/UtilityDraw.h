@@ -18,6 +18,7 @@ class	IAllocator;
 class	CRWBuffer;
 class	CGeometrySystem;
 class	CDrawPrimitive;
+class	CPooledAllocator;
 
 //-----------------------------------------------------------------------------------------------------
 // Utility class for drawing basic shapes, not thread safe!
@@ -29,7 +30,8 @@ class CUtilityDraw
 						CGeometrySystem** ppGeometrySystem, 
 						CStringDictionary** ppStringDictionary,
 						CMaterialSystem**	ppMaterialSystem,
-						CDrawPrimitiveSystem** ppDrawPrimitiveSystem);
+						CDrawPrimitiveSystem** ppDrawPrimitiveSystem,
+						CPooledAllocator* pPooledAllocator);
 		~CUtilityDraw();
 				
 		void Tick();

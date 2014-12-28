@@ -13,11 +13,12 @@ CConsole::CConsole(	CInput* pInput,
 					CMaterialSystem** ppMaterialSystem,
 					CRenderer** ppRenderer,
 					CUtilityDraw** ppUtilityDraw,
-					CDebugGUI** ppDebugGUI) : m_rMaterialSystem(ppMaterialSystem),
+					CDebugGUI** ppDebugGUI,
+					CPooledAllocator* pPooledAllocator) : m_rMaterialSystem(ppMaterialSystem),
 											m_rRenderer(ppRenderer),
 											m_rUtilityDraw(ppUtilityDraw),
 											m_rDebugGUI(ppDebugGUI),
-											m_RegisteredCommands(&CMemoryManager::GetAllocator())	// use global allocator for lists internal structs
+											m_RegisteredCommands(pPooledAllocator)	
 {	
 	m_CursorPos = 1;
 	m_InputLength = 0;

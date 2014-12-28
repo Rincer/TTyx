@@ -9,6 +9,7 @@
 
 class CThreadPool;
 class CTimeLine;
+class CPooledAllocator;
 
 //-------------------------------------------------------------------------------------------
 class CJobSystem
@@ -64,7 +65,7 @@ class CJobSystem
 				virtual bool IsBlocked() = 0;
 		};
 		
-		CJobSystem(CTimeLine** ppTimeLine);
+		CJobSystem(CTimeLine** ppTimeLine, CPooledAllocator* pPooledAllocator);
 		~CJobSystem();
 
 		//-------------------------------------------------------------------------------------------
@@ -94,7 +95,7 @@ class CJobSystem
 		void Acquire();
 		void Release();
 		static const unsigned int sc_ThreadsPerCore = 2;
-		CMultiList<eMaxPriorities, CJob>*	m_pJobQueue;
+		CMultiList<eMaxPriorities, CJob>	m_JobQueue;
 		CThreadPool*	m_pThreadPool;
 		CHeapAllocator* m_pAllocator;
 		CLWMutex		m_Mutex;

@@ -23,10 +23,10 @@ void CSegmentedBuffer::Initialize(unsigned int NumSegments, unsigned int Segment
 }
 
 //------------------------------------------------------------------------------------------------------------------
-CSegmentedBuffer::CSegmentedBuffer() :	m_pAllocator(NULL),
+CSegmentedBuffer::CSegmentedBuffer(CPooledAllocator* pPooledAllocator) :	m_pAllocator(NULL),
 										m_pBufferMemory(NULL),
-										m_WriteList(&CMemoryManager::GetAllocator()),
-										m_ReadList(&CMemoryManager::GetAllocator())	// use global allocator for lists internal structs
+										m_WriteList(pPooledAllocator),
+										m_ReadList(pPooledAllocator)	
 
 {
 }

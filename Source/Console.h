@@ -11,6 +11,7 @@ class CMaterialSystem;
 class CRenderer;
 class CUtilityDraw;
 class CDebugGUI;
+class CPooledAllocator;
 
 class CConsole
 {
@@ -19,7 +20,8 @@ class CConsole
 					CMaterialSystem** ppMaterialSystem,
 					CRenderer** ppRenderer,
 					CUtilityDraw** ppUtilityDraw,
-					CDebugGUI** ppDebugGUI);
+					CDebugGUI** ppDebugGUI,
+					CPooledAllocator* pPooledAllocator);
 		~CConsole();
 				
 		void Tick(float DeltaSec);

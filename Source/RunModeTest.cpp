@@ -22,6 +22,7 @@
 #include "InstancedObject.h"
 #include "SkeletalObject.h"
 #include "StaticObjectCollection.h"
+#include "PooledAllocator.h"
 
 #include "RunModeTest.h"
 
@@ -110,18 +111,7 @@ XMFLOAT4 Bronze ( 205.0f / 255.0f, 127.0f / 255.0f, 50.0f / 255.0f, 0.f);
 void CRunModeTest::Tick(float DeltaSec)
 {
 	CTimeLine::CScopedEvent ScopedEvent((unsigned int)MainThreadEvents::eRunMode, m_pTimeLine);
-//	static CElementArrayPool<TestStruct> TestArrayPool(NULL, 5, 3);
-//	CElementEntry* TS[10];
-//	TS[0] = &(TestArrayPool.AllocElement());
-//	TS[1] = &(TestArrayPool.AllocElement());
-//	TS[2] = &(TestArrayPool.AllocElement());
-//	TS[3] = &(TestArrayPool.AllocElement());
-//	TS[4] = &(TestArrayPool.AllocElement());			
-//	TestArrayPool.FreeElement(TS[1]);
-//	TestArrayPool.FreeElement(TS[4]);	
-//	TestArrayPool.FreeElement(TS[0]);	
-//	TestArrayPool.FreeElement(TS[3]);		
-//	TestArrayPool.FreeElement(TS[2]);		
+
 	static CSkeletalObject s_TTyxSkeletalObject;
 	static CInstancedObject s_TTyxInstancedObject;
 	static CStaticObjectCollection s_TTyxSector;
@@ -139,6 +129,28 @@ void CRunModeTest::Tick(float DeltaSec)
 	static CMaterial* pMaterial[scRoughNess][scMetalNess] = { NULL };
 	if(FirstTime)
 	{		
+		CPooledAllocator* pPooledAllocator = new CPooledAllocator(16, 10, 8, &CMemoryManager::GetAllocator());
+		pPooledAllocator->VerifyConsistency();
+		void* p0 = pPooledAllocator->Alloc(0);
+		void* p1 = pPooledAllocator->Alloc(0);
+		void* p2 = pPooledAllocator->Alloc(0);
+		void* p3 = pPooledAllocator->Alloc(0);
+		void* p4 = pPooledAllocator->Alloc(0);
+		pPooledAllocator->VerifyConsistency();
+		pPooledAllocator->Free(p1);
+		pPooledAllocator->Free(p3);
+		pPooledAllocator->VerifyConsistency();
+		void* p5 = pPooledAllocator->Alloc(0);
+		void* p6 = pPooledAllocator->Alloc(0);
+		void* p7 = pPooledAllocator->Alloc(0);
+		void* p8 = pPooledAllocator->Alloc(0);
+		void* p9 = pPooledAllocator->Alloc(0);
+		pPooledAllocator->VerifyConsistency();
+		p1 = pPooledAllocator->Alloc(0);
+		p3 = pPooledAllocator->Alloc(0);
+		pPooledAllocator->VerifyConsistency();
+		pPooledAllocator->Free(p6);
+		pPooledAllocator->VerifyConsistency();
 //		XMMATRIX LocalToWorld = XMMatrixIdentity();
 //		CMaterialPlainColor::CParameters Params("LocalToWorld", LocalToWorld);
 //		gTTyx->GetMaterialSystem().AddParameters(CMaterialSystem::eMaterialPlainColor, &Params);	

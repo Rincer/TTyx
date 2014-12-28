@@ -27,6 +27,7 @@ class CUtilityDraw;
 class CSkeletonSystem;
 class CTextureSystem;
 class CNetwork;
+class CPooledAllocator;
 
 // The main TTyx
 class TTyx
@@ -41,6 +42,8 @@ class TTyx
 		static CTimeLine::CEventDesc m_ProfilingEvents[MainThreadEvents::eTotalEvents + 1];
 		
 	private:
+		void ConstructMemoryPools();
+		void DestructMemoryPools();
 		void ConstructComponents();
 		void DestructComponents();
 
@@ -48,6 +51,9 @@ class TTyx
 		CWindow m_Wnd; // main window for the app.	
 
 		CRunModeTest*		m_pRunModeTest;	
+
+		// Memory pools	shared between components
+		CPooledAllocator*		m_pMultiListPool;
 
 		// Components
 		CConsole*				m_pConsole;

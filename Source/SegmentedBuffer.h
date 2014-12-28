@@ -7,6 +7,7 @@
 #include "RWBuffer.h"
 
 class IAllocator;
+class CPooledAllocator;
 
 // Memory buffer that handles data allocation in segments of preset size, dataflow is:
 // Producer gets buffer from write list, writes to it, moves it to the read list
@@ -15,7 +16,7 @@ class IAllocator;
 class CSegmentedBuffer
 {
 	public:
-		CSegmentedBuffer();
+		CSegmentedBuffer(CPooledAllocator* pPooledAllocator);
 		~CSegmentedBuffer();
 
 		void Initialize(unsigned int NumSegments, unsigned int SegmentSize, IAllocator* pAllocator);
@@ -34,8 +35,8 @@ class CSegmentedBuffer
 
 
 	private:
-		CMultiList<1, CRWBuffer>	m_WriteList;
-		CMultiList<1, CRWBuffer>	m_ReadList;
+		CMultiList<1, CRWBuffer> m_WriteList;
+		CMultiList<1, CRWBuffer> m_ReadList;
 		CLWMutex			m_Mutex;
 		unsigned char*		m_pBufferMemory;
 		IAllocator*			m_pAllocator;

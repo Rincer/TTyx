@@ -28,6 +28,7 @@ class CTextureSystem;
 class CConstantsSystem;
 class CDrawPrimitiveSystem;
 class CGeometrySystem;
+class CPooledAllocator;
 
 class CDepthStencilState
 {
@@ -69,7 +70,8 @@ class CRenderer
 							CMaterialSystem** ppMaterialSystem,
 							CConstantsSystem** ppConstantsSystem,
 							CDrawPrimitiveSystem** ppDrawPrimitiveSystem,
-							CGeometrySystem** ppGeometrySystem);
+							CGeometrySystem** ppGeometrySystem,
+							CPooledAllocator* pPooledAllocator);
 		~CRenderer();
 		
 		enum eDepthStates

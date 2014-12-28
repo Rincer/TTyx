@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TTyx", "Source\TTyx.vcxproj", "{577EC1E1-1B19-4A84-A08D-D5415CCAEF06}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{6381DF26-788E-41BB-9556-68C1100F698F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +17,10 @@ Global
 		{577EC1E1-1B19-4A84-A08D-D5415CCAEF06}.Debug|Win32.Build.0 = Debug|Win32
 		{577EC1E1-1B19-4A84-A08D-D5415CCAEF06}.Release|Win32.ActiveCfg = Release|Win32
 		{577EC1E1-1B19-4A84-A08D-D5415CCAEF06}.Release|Win32.Build.0 = Release|Win32
+		{6381DF26-788E-41BB-9556-68C1100F698F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6381DF26-788E-41BB-9556-68C1100F698F}.Debug|Win32.Build.0 = Debug|Win32
+		{6381DF26-788E-41BB-9556-68C1100F698F}.Release|Win32.ActiveCfg = Release|Win32
+		{6381DF26-788E-41BB-9556-68C1100F698F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
