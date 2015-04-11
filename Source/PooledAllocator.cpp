@@ -6,45 +6,47 @@
 
 //-----------------------------------------------------------------------------------------------------------------
 CPooledAllocator::CPooledAllocator(unsigned int ElementSize, unsigned int NumElements, unsigned int Alignment, IAllocator* pAllocator) : m_NumElements(NumElements),
-m_pAllocator(pAllocator)
+	m_Alignment(Alignment),
+	m_pMemoryBlock(nullptr),
+	m_pAllocator(pAllocator)
 {
-	Alignment = MAX(Alignment, 4); // at least 4 
-	m_ElementSize = ALIGN(ElementSize, Alignment);	
-	m_pMemory = (unsigned char*)pAllocator->AlignedAlloc(m_ElementSize * NumElements, Alignment);	
-	for(unsigned int ElementIndex = 0; ElementIndex < m_NumElements - 1; ElementIndex++)
-	{
-		unsigned int* NextElementOffset = (unsigned int*)&m_pMemory[ElementIndex * m_ElementSize];
-		*NextElementOffset = (ElementIndex + 1) * m_ElementSize; // point to the next element
-	}
-	*(unsigned int*)&m_pMemory[(m_NumElements - 1) * m_ElementSize]	= scEndOfListOffset; //	list terminator
-	m_FreeElementOffset = 0;
+	m_Alignment = MAX(Alignment, 4); // at least 4
+	m_ElementSize = MAX(ALIGN(ElementSize, m_Alignment), 8); // at least 8 to be able to store 64 bit ptrs
+	unsigned char* pMemory = (unsigned char*)pAllocator->AlignedAlloc(m_ElementSize * m_NumElements + sizeof(CMemoryBlockLink), m_Alignment);		
+	CreatePool(pMemory);
 }
 
 //-----------------------------------------------------------------------------------------------------------------
 CPooledAllocator::~CPooledAllocator()
 {
-	m_pAllocator->Free(m_pMemory);
+	while(m_pMemoryBlock)
+	{
+		CMemoryBlockLink MemoryBlockLink = *m_pMemoryBlock;	// create local copy
+		m_pAllocator->Free(m_pMemoryBlock->m_pMemory);		// this will free the memory occupied by m_pMemoryBlock too, thats why we need a local copy
+		m_pMemoryBlock = MemoryBlockLink.m_pNext;			// move to next allocated block
+	}
 }
 
 //-----------------------------------------------------------------------------------------------------------------
 void* CPooledAllocator::Alloc(unsigned int Size)
 {
 	Assert(Size <= m_ElementSize);
-	if(m_FreeElementOffset == scEndOfListOffset)
+	if(m_pFreeElement == nullptr)	// grow the pool
 	{
-		return nullptr;
+		unsigned char* pMemory = (unsigned char*)m_pAllocator->AlignedAlloc(m_ElementSize * m_NumElements + sizeof(CMemoryBlockLink), m_Alignment);		
+		CreatePool(pMemory);
 	}
-	unsigned int* Res = (unsigned int*)&m_pMemory[m_FreeElementOffset];
-	m_FreeElementOffset	= *Res; // Advance to next free element
+	void* Res = m_pFreeElement;
+	m_pFreeElement = m_pFreeElement->m_pNext; // advance
 	return (void*)Res;
 }
 
 //-----------------------------------------------------------------------------------------------------------------
 void CPooledAllocator::Free(void* pMemory)
 {
-	unsigned int* FreeBlock = (unsigned int*)pMemory;
-	*FreeBlock = m_FreeElementOffset; // link to the front of the list
-	m_FreeElementOffset = (unsigned char*)pMemory - m_pMemory; // update the 1st free element offset to the start of the free block
+	CLink* pFreeBlock = (CLink*)pMemory;
+	pFreeBlock->m_pNext = m_pFreeElement; // link to the front of the list
+	m_pFreeElement = pFreeBlock; // update the 1st free element offset to the start of the free block
 }
 
 //-----------------------------------------------------------------------------------------------------------------
@@ -75,15 +77,33 @@ void CPooledAllocator::Reset(void)
 }
 
 //-----------------------------------------------------------------------------------------------------------------
+void CPooledAllocator::CreatePool(unsigned char* pMemory)
+{
+	CMemoryBlockLink* pNewMemoryBlock = (CMemoryBlockLink*)&pMemory[m_ElementSize * m_NumElements];	// stored at the end
+	pNewMemoryBlock->m_pMemory = pMemory;
+	pNewMemoryBlock->m_pNext = m_pMemoryBlock;
+	m_pMemoryBlock = pNewMemoryBlock;
+
+	m_pFreeElement = (CLink*)&pMemory[(m_NumElements - 1) * m_ElementSize]; // last element
+	m_pFreeElement->m_pNext = nullptr;
+	for(int ElementIndex = m_NumElements - 2; ElementIndex >= 0; ElementIndex--)
+	{
+		CLink* pNewElement = (CLink*)&pMemory[ElementIndex * m_ElementSize];
+		pNewElement->m_pNext = m_pFreeElement;
+		m_pFreeElement = pNewElement;		
+	}
+}
+
+//-----------------------------------------------------------------------------------------------------------------
 void CPooledAllocator::VerifyConsistency()
 {
 	unsigned int TotalFree = 0;
-	unsigned int FreeOffset = m_FreeElementOffset;
-	while(FreeOffset != scEndOfListOffset)
+	CLink* pFree = m_pFreeElement;
+	while(pFree != nullptr)
 	{
-		DebugPrintf("%d ", FreeOffset);
+		DebugPrintf("0x%x ", pFree);
 		TotalFree++;
-		FreeOffset = *(unsigned int*)&m_pMemory[FreeOffset];
+		pFree = pFree->m_pNext;
 	}
 	DebugPrintf("\n Total free %d\n", TotalFree);
 }

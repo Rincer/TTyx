@@ -38,7 +38,7 @@ void CJobSystem::CJob::OnComplete()
 //-------------------------------------------------------------------------------------------
 CJobSystem::CJobSystem(CTimeLine** ppTimeLine, 
 	CPooledAllocator* pPooledAllocator) : m_TotalJobs(0),
-	m_JobQueue(pPooledAllocator),
+	m_JobQueue(eMaxPriorities, pPooledAllocator),
 	m_rTimeLine(ppTimeLine)
 {
 	m_pAllocator = new CHeapAllocator(sc_JobSystemMemory, false);

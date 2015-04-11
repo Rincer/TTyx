@@ -25,8 +25,8 @@ void CSegmentedBuffer::Initialize(unsigned int NumSegments, unsigned int Segment
 //------------------------------------------------------------------------------------------------------------------
 CSegmentedBuffer::CSegmentedBuffer(CPooledAllocator* pPooledAllocator) :	m_pAllocator(NULL),
 										m_pBufferMemory(NULL),
-										m_WriteList(pPooledAllocator),
-										m_ReadList(pPooledAllocator)	
+										m_WriteList(1, pPooledAllocator),
+										m_ReadList(1, pPooledAllocator)	
 
 {
 }

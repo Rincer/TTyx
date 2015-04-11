@@ -75,7 +75,7 @@ class CConsole
 		float			m_CursorTimerDelay;	
 		unsigned int	m_CurrentLine;	
 		
-		CMultiList<1, CConsoleCommand>	m_RegisteredCommands;
+		CMultiList<CConsoleCommand>	m_RegisteredCommands;
 // System level components
 		CReference<CMaterialSystem*> m_rMaterialSystem;
 		CReference<CRenderer*> m_rRenderer;

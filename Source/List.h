@@ -2,9 +2,10 @@
 #define _LIST_H_
 
 #include "PooledAllocator.h"
+
 //---------------------------------------------------------------------
 // Double linked list of pointers to ValueType
-template<unsigned int NumLists, class ValueType>
+template<class ValueType>
 class CMultiList
 {
 	public:
@@ -40,9 +41,13 @@ class CMultiList
 			friend class CMultiList;
 		};
 
+	
 		//-------------------------------------------------------------------------------------------------------
-		CMultiList(CPooledAllocator* pAllocator) : m_pAllocator(pAllocator)
+		CMultiList(unsigned int NumLists, CPooledAllocator* pAllocator) : m_NumLists(NumLists),
+			m_pAllocator(pAllocator)
 		{	
+			m_pFirst = new CIterator*[NumLists];
+			m_pLast = new CIterator*[NumLists];
 			for(unsigned int ListIndex = 0; ListIndex < NumLists; ListIndex++)
 			{
 				m_pFirst[ListIndex] = nullptr;
@@ -53,12 +58,18 @@ class CMultiList
 		//-------------------------------------------------------------------------------------------------------
 		~CMultiList()
 		{
+			for(unsigned int ListIndex = 0; ListIndex < m_NumLists; ListIndex++)
+			{					  
+				FreeList(ListIndex);		
+			}
+			delete[] m_pFirst;
+			delete[] m_pLast;
 		}
 
 		//-------------------------------------------------------------------------------------------------------
 		void AddFront(unsigned int ListIndex, ValueType* pValue)
 		{	
-			Assert(ListIndex < NumLists);
+			Assert(ListIndex < m_NumLists);
 			CIterator* pIterator = GetIterator(pValue);	
 			LinkFront(ListIndex, pIterator);
 		}
@@ -66,7 +77,7 @@ class CMultiList
 		//-------------------------------------------------------------------------------------------------------
 		void AddBack(unsigned int ListIndex, ValueType* pValue)
 		{		
-			Assert(ListIndex < NumLists);
+			Assert(ListIndex < m_NumLists);
 			CIterator* pIterator = GetIterator(pValue);	
 			LinkBack(ListIndex, pIterator);
 		}
@@ -159,6 +170,17 @@ class CMultiList
 			PutIterator(pIterator);
 		}
 
+		void FreeList(unsigned int ListIndex)
+		{
+			CIterator* pCurr = m_pFirst[ListIndex];
+			while(pCurr)
+			{
+				CIterator* pNext = pCurr->Next();
+				UnLink(ListIndex, pCurr);
+				pCurr = pNext;
+			}
+		}
+
 		// get from a list of discarded iterators
 		CIterator* GetIterator(ValueType* pValue)
 		{
@@ -175,9 +197,10 @@ class CMultiList
 			m_pAllocator->Free(pIterator);
 		}
 
-		CIterator* m_pFirst[NumLists];
-		CIterator* m_pLast[NumLists];
-		CPooledAllocator* m_pAllocator;
+		CIterator**			m_pFirst;
+		CIterator**			m_pLast;
+		unsigned int		m_NumLists;
+		CPooledAllocator*	m_pAllocator;
 };
 
 #endif

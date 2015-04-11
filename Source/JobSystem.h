@@ -95,7 +95,7 @@ class CJobSystem
 		void Acquire();
 		void Release();
 		static const unsigned int sc_ThreadsPerCore = 2;
-		CMultiList<eMaxPriorities, CJob>	m_JobQueue;
+		CMultiList<CJob>	m_JobQueue;
 		CThreadPool*	m_pThreadPool;
 		CHeapAllocator* m_pAllocator;
 		CLWMutex		m_Mutex;

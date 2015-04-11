@@ -17,12 +17,28 @@ class CPooledAllocator final : public IAllocator
 		virtual void VerifyConsistency();
 
 	private:
-		static const unsigned int scEndOfListOffset = 0x1; // valid offsets cant be odd, because at least 4 byte alignment is imposed
-		unsigned int	m_ElementSize;
-		unsigned int	m_NumElements;
-		unsigned char*	m_pMemory;
-		IAllocator*		m_pAllocator;
-		unsigned int	m_FreeElementOffset;
+
+		void CreatePool(unsigned char* pMemory);
+
+		class CLink
+		{
+			public:
+				CLink* m_pNext;
+		};
+
+		class CMemoryBlockLink
+		{
+			public:
+				unsigned char*		m_pMemory;
+				CMemoryBlockLink*	m_pNext;
+		};
+
+		unsigned int		m_ElementSize;
+		unsigned int		m_NumElements;
+		unsigned int		m_Alignment;
+		CMemoryBlockLink*	m_pMemoryBlock;
+		IAllocator*			m_pAllocator;
+		CLink*				m_pFreeElement;	 
 };
 
 #endif

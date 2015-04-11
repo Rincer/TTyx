@@ -89,7 +89,7 @@ static TTyx sTTyx; // One global instance of the app
 
 void TTyx::ConstructMemoryPools()
 {
-	m_pMultiListPool = new CPooledAllocator(sizeof(CMultiList<1, int>::CIterator), CMultiList<1, int>::sc_MaxMultiListIterators, 4, &CMemoryManager::GetAllocator());
+	m_pMultiListPool = new CPooledAllocator(sizeof(CMultiList<int>::CIterator), CMultiList<int>::sc_MaxMultiListIterators, 4, &CMemoryManager::GetAllocator());
 }
 
 //--------------------------------------------------------------------------------------

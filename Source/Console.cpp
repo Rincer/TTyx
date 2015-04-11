@@ -18,7 +18,7 @@ CConsole::CConsole(	CInput* pInput,
 											m_rRenderer(ppRenderer),
 											m_rUtilityDraw(ppUtilityDraw),
 											m_rDebugGUI(ppDebugGUI),
-											m_RegisteredCommands(pPooledAllocator)	
+											m_RegisteredCommands(1, pPooledAllocator)	
 {	
 	m_CursorPos = 1;
 	m_InputLength = 0;
