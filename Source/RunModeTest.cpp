@@ -118,7 +118,8 @@ void CRunModeTest::Tick(float DeltaSec)
 	static bool FirstTime = true;
 	static CDrawPrimitive* pDrawPrimitive = NULL;
 	static CDrawPrimitive* pDrawPrimitive1 = NULL;
-	static CLight* pLight = NULL;
+	static CPointLight* pLight = NULL;
+	static CDirectionalLight* pDirLight = NULL;
 	
 	static CResourceInfo  m_CBufferInfo;
 	static CCBuffer*	  m_pCBuffer;	
@@ -169,14 +170,14 @@ void CRunModeTest::Tick(float DeltaSec)
 //		CAssetObj& AssetObj = gTTyx->GetLoadingSystem().LoadAssetObjFromFile("Cube.obj");
 //		CAssetObj& AssetObj = gTTyx->GetLoadingSystem().LoadAssetObjFromFile("sponza.obj");
 
-		
-		s_TTyxSkeletalObject.Create("tiny_4anim.x", m_pRenderObjectSystem, m_pAnimationSystem);		
-		s_TTyxSector.Create("sponza.obj", 392, m_pRenderObjectSystem);
-		s_TTyxInstancedObject.Create("teapot.obj", m_pRenderObjectSystem);
+		s_TTyxSector.Create("plain.obj", 2, m_pRenderObjectSystem);
+//		s_TTyxSkeletalObject.Create("tiny_4anim.x", m_pRenderObjectSystem, m_pAnimationSystem);		
+//		s_TTyxSector.Create("sponza.obj", 392, m_pRenderObjectSystem);
+//		s_TTyxInstancedObject.Create("teapot.obj", m_pRenderObjectSystem);
 
-
-		m_pLoadingSystem->LoadFromFile("tiny_4anim.x", &CRenderObjectSystem::s_mSkeletalObjectCreator);
-		m_pLoadingSystem->LoadFromFile("sponza.obj", &CRenderObjectSystem::s_mRenderObjectCreator);
+		m_pLoadingSystem->LoadFromFile("plain.obj", &CRenderObjectSystem::s_mRenderObjectCreator);
+//		m_pLoadingSystem->LoadFromFile("tiny_4anim.x", &CRenderObjectSystem::s_mSkeletalObjectCreator);
+//		m_pLoadingSystem->LoadFromFile("sponza.obj", &CRenderObjectSystem::s_mRenderObjectCreator);
 //		m_pLoadingSystem->LoadFromFile("teapot.obj", &CRenderObjectSystem::s_mInstancedRenderObjectCreator);
 
 
@@ -226,12 +227,15 @@ void CRunModeTest::Tick(float DeltaSec)
 //		static CDrawPrimitive sDrawPrimitive(&VBuffer, &IBuffer, CMaterialSystem::eMaterialPhong, 6, "Default", "TestParams");
 //		pDrawPrimitive = &sDrawPrimitive;
 		m_View.Initialize(XM_PIDIV4, m_pRenderer->GetAspectRatio(),  1.0f, 5000.0f);
-		m_View.SetPosition(0.0f, 0.0f, -100.0f);
+		m_View.SetPosition(0.0f, 100.0f, -100.0f);
 //		m_View.SetPosition(476.1832f, 128.5883f, -38.4587f);
-		CColor Color(0, 255, 255, 255);
+		CColor ColorPt(0, 255, 255, 255);
 		XMFLOAT3 Position(0.0f, 30.0f, -100.0f);
-		CLight& Light = m_pLightSystem->CreateLight(Color, 1.0f, Position, 5000.0f);
+		CPointLight& Light = m_pLightSystem->CreateLight(ColorPt, 1.0f, Position, 5000.0f);
 		pLight = &Light;
+		CColor ColorDir(0, 255, 255, 255);
+		CDirectionalLight& DirLight = m_pLightSystem->CreateLight(ColorDir, 1.0f, XMFLOAT3(-0.5f, 0.0f, -0.5f));
+		pDirLight = &DirLight;
 		FirstTime = false;
 	} 
 	else
@@ -367,15 +371,15 @@ void CRunModeTest::Tick(float DeltaSec)
 		s_TTyxSkeletalObject.Draw(m_pRenderer, m_pConstantsSystem);
 		s_TTyxSector.Draw(m_pRenderer, m_pConstantsSystem);
 
-		for(unsigned int RoughNess = 0; RoughNess < scRoughNess; RoughNess++)
-		{
-			for(unsigned int MetalNess = 0; MetalNess < scMetalNess; MetalNess++)
-			{
-				XMMATRIX LocalToWorld;		
-				LocalToWorld = XMMatrixScaling(15, 15, 15) * XMMatrixTranslation(Pos.x + 35 * RoughNess, Pos.y + 35 * MetalNess, Pos.z);
-				m_pUtilityDraw->DrawSphere(LocalToWorld, pMaterial[RoughNess][MetalNess]);
-			}
-		}
+		//for(unsigned int RoughNess = 0; RoughNess < scRoughNess; RoughNess++)
+		//{
+		//	for(unsigned int MetalNess = 0; MetalNess < scMetalNess; MetalNess++)
+		//	{
+		//		XMMATRIX LocalToWorld;		
+		//		LocalToWorld = XMMatrixScaling(15, 15, 15) * XMMatrixTranslation(Pos.x + 35 * RoughNess, Pos.y + 35 * MetalNess, Pos.z);
+		//		m_pUtilityDraw->DrawSphere(LocalToWorld, pMaterial[RoughNess][MetalNess]);
+		//	}
+		//}
 
 		m_pRenderer->Postprocess();
 

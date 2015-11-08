@@ -84,14 +84,14 @@ void CPooledAllocator::CreatePool(unsigned char* pMemory)
 	pNewMemoryBlock->m_pNext = m_pMemoryBlock;
 	m_pMemoryBlock = pNewMemoryBlock;
 
-	m_pFreeElement = (CLink*)&pMemory[(m_NumElements - 1) * m_ElementSize]; // last element
-	m_pFreeElement->m_pNext = nullptr;
-	for(int ElementIndex = m_NumElements - 2; ElementIndex >= 0; ElementIndex--)
+	m_pFreeElement = (CLink*)pMemory;
+	CLink* pCurrElement = m_pFreeElement;
+	for(unsigned int ElementIndex = 1; ElementIndex < m_NumElements; ElementIndex++)
 	{
-		CLink* pNewElement = (CLink*)&pMemory[ElementIndex * m_ElementSize];
-		pNewElement->m_pNext = m_pFreeElement;
-		m_pFreeElement = pNewElement;		
+		pCurrElement->m_pNext = (CLink*)&pMemory[ElementIndex * m_ElementSize];
+		pCurrElement = pCurrElement->m_pNext;		
 	}
+	pCurrElement->m_pNext = nullptr;
 }
 
 //-----------------------------------------------------------------------------------------------------------------

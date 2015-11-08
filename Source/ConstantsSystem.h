@@ -88,8 +88,12 @@ class CConstantsSystem
 
 		struct cbLights
 		{
-			XMVECTOR m_ColorSqR;			// r, g, b, sqr(Radius)
-			XMVECTOR m_PosInvSqR;			// x, y, z, 1 / sqr(Radius)
+			// point
+			XMVECTOR m_ColorSqR;	// r, g, b, sqr(Radius)
+			XMVECTOR m_PosInvSqR;	// x, y, z, 1 / sqr(Radius)
+			// directional
+			XMVECTOR m_DirectionalDir;	 
+			XMVECTOR m_DirectionalCol;	
 		};
 
 		struct cbLocalToWorld

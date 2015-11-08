@@ -77,9 +77,16 @@ unsigned int CObjFileParser::ReadTriOrQuad(CIntermediateDrawPrimData::STriangle 
 		pTriangles[0].m_Verts[VertexIndex].m_PosIndex = i - 1 - PosOffset;
 		Assert(*ppData[0] == '/');
 		(*ppData)++;
-		CTextReader::ReadInt(i, ppData);
-		pTriangles[0].m_Verts[VertexIndex].m_UvIndex = i - 1 - UvOffset;
-		Assert(*ppData[0] == '/');
+ 		if(*ppData[0] == '/') // no Uv
+		{
+			pTriangles[0].m_Verts[VertexIndex].m_UvIndex = 0;
+		}
+		else
+		{
+			CTextReader::ReadInt(i, ppData);
+			pTriangles[0].m_Verts[VertexIndex].m_UvIndex = i - 1 - UvOffset;
+			Assert(*ppData[0] == '/');
+		}
 		(*ppData)++;
 		CTextReader::ReadInt(i, ppData);
 		pTriangles[0].m_Verts[VertexIndex].m_NrmIndex = i - 1 - NrmOffset;			
@@ -91,9 +98,16 @@ unsigned int CObjFileParser::ReadTriOrQuad(CIntermediateDrawPrimData::STriangle 
 		pTriangles[1].m_Verts[2].m_PosIndex = i - 1 - PosOffset;
 		Assert(*ppData[0] == '/');
 		(*ppData)++;
-		CTextReader::ReadInt(i, ppData);
-		pTriangles[1].m_Verts[2].m_UvIndex = i - 1 - UvOffset;
-		Assert(*ppData[0] == '/');
+		if(*ppData[0] == '/') // no Uv
+		{
+			pTriangles[1].m_Verts[2].m_UvIndex = 0;
+		}
+		else
+		{
+			CTextReader::ReadInt(i, ppData);
+			pTriangles[1].m_Verts[2].m_UvIndex = i - 1 - UvOffset;
+			Assert(*ppData[0] == '/');
+		}
 		(*ppData)++;
 		CTextReader::ReadInt(i, ppData);
 		pTriangles[1].m_Verts[2].m_NrmIndex = i - 1 - NrmOffset;		
@@ -236,6 +250,14 @@ void CObjFileParser::ParseObjFileFromMemory(unsigned char* pMemory, unsigned int
 				m_RawVertexData.AddPos(Pos);				
 			}
 		}
+		// object
+		else if(pData[0] == 'o')
+		{
+			Assert((m_State == eLibrary) || (m_State == eTriangles));
+			m_State = eTriangles;	
+			pData += 1;							
+			CTextReader::ReadString(m_GroupName, &pData);
+		}
 		// Group
 		else if(pData[0] == 'g')
 		{
@@ -268,7 +290,7 @@ void CObjFileParser::ParseObjFileFromMemory(unsigned char* pMemory, unsigned int
 		// Smoothing group
 		else if(pData[0] == 's')
 		{
-			Assert(m_State == eTriangles);				
+			Assert((m_State == eTriangles) || (m_State == eVertexData));			
 			pData += 1;	
 			ReadSmoothingGroup(m_SmoothingGroup, &pData);
 		}
@@ -276,7 +298,7 @@ void CObjFileParser::ParseObjFileFromMemory(unsigned char* pMemory, unsigned int
 		// Face
 		else if(pData[0] == 'f')
 		{
-			Assert((m_State == eTriangles) || (m_GroupName[0] == '\0'));
+			Assert((m_State == eVertexData) || (m_State == eTriangles) || (m_GroupName[0] == '\0'));
 			m_State = eTriangles;
 			pData += 1;	
 			CIntermediateDrawPrimData::STriangle Triangles[2];

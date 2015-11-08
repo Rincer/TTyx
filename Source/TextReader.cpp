@@ -171,7 +171,7 @@ void CTextReader::SkipComments(char CommentDesignator, const char** ppData)
 {
 	if((*ppData)[0] == CommentDesignator) 
 	{
-		while((*ppData)[0] != 13)
+		while(((*ppData)[0] != 13) && ((*ppData)[0] != 10))
 			(*ppData)++;
 	}	
 }

@@ -408,7 +408,7 @@ void CPixelShader::Build(	const char* pFileName,
 
 	unsigned int Flags = D3DCOMPILE_WARNINGS_ARE_ERRORS;
 #if _DEBUG 
-	Flags |= D3DCOMPILE_DEBUG;
+	Flags |= (D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION);
 #else
 	Flags |= D3DCOMPILE_OPTIMIZATION_LEVEL3;
 #endif

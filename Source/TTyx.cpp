@@ -28,6 +28,7 @@
 #include "StringDictionary.h"
 #include "LightSystem.h"
 #include "VertexProcessing.h"
+#include "HashTable.h"
 
 #include "TTyx.h"
 
@@ -278,9 +279,38 @@ int APIENTRY _tWinMain(	HINSTANCE hInstance,
 						int       nCmdShow)
 {	
 // C4100
-	SPos Verts[1000];
-	unsigned short Indices[1000];
-	CVertexProcessing::Instance().CreateSphere(Verts, Indices, 2);
+	//SPos Verts[1000];
+	//unsigned short Indices[1000];
+	//CVertexProcessing::Instance().CreateSphere(Verts, Indices, 2);
+	CHashTable<int, 4> Table(8, &CMemoryManager::GetAllocator());
+	CHashTable<int, 4>::IteratorType* pIter[16];
+	for(int i = 0; i < 12; i++)
+		pIter[i] = Table.Add(i, i);
+	DebugPrintf("Removed ");
+	for(int i = 0; i < 12; i++)
+		if(rand() % 12 < 6)
+		{
+			Table.Remove(pIter[i]);
+			DebugPrintf("%d ",i);
+		}
+	DebugPrintf("\n");
+	DebugPrintf("Found ");
+	for(int i = 0; i < 12; i++)
+		if(Table.Find(i))
+		{
+			DebugPrintf("%d ",i);
+		}
+		else
+		{
+			pIter[i] = Table.Add(i, i);
+		}
+	DebugPrintf("\n");
+	for(int i = 0; i < 12; i++)
+		if(Table.Find(i))
+		{
+			DebugPrintf("%d ",i);
+		}
+	DebugPrintf("\n");
 	lpCmdLine;
 	hPrevInstance;
 	CThread::UpdateThreadID();

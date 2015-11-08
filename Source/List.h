@@ -43,16 +43,15 @@ class CMultiList
 
 	
 		//-------------------------------------------------------------------------------------------------------
-		CMultiList(unsigned int NumLists, CPooledAllocator* pAllocator) : m_NumLists(NumLists),
-			m_pAllocator(pAllocator)
+		CMultiList(unsigned int NumLists, CPooledAllocator* pAllocator)
 		{	
-			m_pFirst = new CIterator*[NumLists];
-			m_pLast = new CIterator*[NumLists];
-			for(unsigned int ListIndex = 0; ListIndex < NumLists; ListIndex++)
-			{
-				m_pFirst[ListIndex] = nullptr;
-				m_pLast[ListIndex] = nullptr;
-			}
+			Initialize(NumLists, pAllocator);
+		}
+
+		//-------------------------------------------------------------------------------------------------------
+		CMultiList() : m_NumLists(0),
+			m_pAllocator(nullptr)
+		{	
 		}
 
 		//-------------------------------------------------------------------------------------------------------
@@ -67,19 +66,35 @@ class CMultiList
 		}
 
 		//-------------------------------------------------------------------------------------------------------
-		void AddFront(unsigned int ListIndex, ValueType* pValue)
+		void Initialize(unsigned int NumLists, CPooledAllocator* pAllocator)
+		{
+			m_pAllocator = pAllocator;
+			m_NumLists = NumLists;
+			m_pFirst = new CIterator*[NumLists];
+			m_pLast = new CIterator*[NumLists];
+			for(unsigned int ListIndex = 0; ListIndex < NumLists; ListIndex++)
+			{
+				m_pFirst[ListIndex] = nullptr;
+				m_pLast[ListIndex] = nullptr;
+			}
+		}
+
+		//-------------------------------------------------------------------------------------------------------
+		CIterator* AddFront(unsigned int ListIndex, ValueType* pValue)
 		{	
 			Assert(ListIndex < m_NumLists);
 			CIterator* pIterator = GetIterator(pValue);	
 			LinkFront(ListIndex, pIterator);
+			return pIterator;
 		}
 
 		//-------------------------------------------------------------------------------------------------------
-		void AddBack(unsigned int ListIndex, ValueType* pValue)
+		CIterator* AddBack(unsigned int ListIndex, ValueType* pValue)
 		{		
 			Assert(ListIndex < m_NumLists);
 			CIterator* pIterator = GetIterator(pValue);	
 			LinkBack(ListIndex, pIterator);
+			return pIterator;
 		}
 
 		//-------------------------------------------------------------------------------------------------------

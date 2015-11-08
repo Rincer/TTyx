@@ -132,10 +132,10 @@ float3 cUnTexturedSpecular::GetSpecular(float2 TexCoord, float3 L, float3 N, flo
 //--------------------------------------------------------------------------------------
 float4 PS( PS_INPUT input) : SV_Target
 {
-//	return float4(gBaseNormal.GetNormal(input.Tex, input.Nor.xyz, input.Tan), 1);
 	float Alpha = gBaseOpacity.GetOpacity(input.Tex);
 	float3 N = gBaseNormal.GetNormal(input.Tex, normalize(input.Nor.xyz), normalize(input.Tan));
 		
+	// point light
 	float3 WorldToLight = LightsPosInvSqR.xyz - input.WorldPos.xyz; 	
 	float3 L = normalize(WorldToLight);	
 	
@@ -148,6 +148,13 @@ float4 PS( PS_INPUT input) : SV_Target
 	SpecularReflection = gBaseSpecular.GetSpecular(input.Tex, L, N, CameraPos.xyz - input.WorldPos.xyz); 
 
 	float3 LightsColor = DistanceAttenuation * AngularAttenuation * (DiffuseReflection + SpecularReflection) * LightsColorSqR.xyz;
+
+	// directional light
+	L = -DirectionalDir.xyz; // directional light direction
+	AngularAttenuation = saturate(dot(L, N));
+	SpecularReflection = gBaseSpecular.GetSpecular(input.Tex, L, N, CameraPos.xyz - input.WorldPos.xyz); 
+	LightsColor = float3(AngularAttenuation, AngularAttenuation, AngularAttenuation); // * (DiffuseReflection + SpecularReflection) * DirectionalCol.xyz;
+
     return float4(LightsColor, 1);
 }
 
